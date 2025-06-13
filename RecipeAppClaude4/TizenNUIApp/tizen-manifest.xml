@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="org.tizen.example.TizenNUIApp" version="1.0.0" api-version="7.0" xmlns="http://tizen.org/ns/packages">
+  <profile name="mobile" />
+  <ui-application appid="org.tizen.example.TizenNUIApp" exec="TizenNUIApp.dll" multiple="false" nodisplay="false" taskmanage="true" type="dotnet" launch_mode="single">
+    <label>TizenNUIApp</label>
+    <icon>TizenNUIApp.png</icon>
+    <metadata key="http://tizen.org/metadata/prefer_dotnet_aot" value="true" />
+  </ui-application>
+  <shortcut-list />
+  <privileges>
+    <privilege>http://tizen.org/privilege/display</privilege>
+  </privileges>
+  <dependencies />
+  <provides-appdefined-privileges />
+</manifest>

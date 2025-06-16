@@ -33,4 +33,4 @@ C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\tpk
 C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\tpkroot\shared\res\README.txt
 C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\tpkroot\shared\res\TizenNUIApp.png
 C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\tpkroot\tizen-manifest.xml
-C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\-.tpk
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\org.tizen.example.TizenNUIApp-1.0.0.tpk

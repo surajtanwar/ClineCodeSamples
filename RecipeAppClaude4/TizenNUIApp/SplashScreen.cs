@@ -2,6 +2,7 @@ using System;
 using Tizen.NUI;
 using Tizen.NUI.BaseComponents;
 using Tizen.Applications;
+using Tizen.NUI.Components;
 
 namespace TizenNUIApp
 {
@@ -37,26 +38,28 @@ namespace TizenNUIApp
                 HeightResizePolicy = ResizePolicyType.FillToParent
             };
 
-            // Create the main chef hat icon (Group.png) - centered horizontally, positioned in upper portion
-            // Based on the uploaded image, the chef hat should be centered and positioned around 1/3 from top
+            // Create the main chef hat icon (Group.png) - centered and positioned to match the uploaded design
+            // The chef hat should be centered horizontally and positioned in the upper-middle area
             ImageView chefHatIcon = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group.png"),
-                Position2D = new Position2D(360, 320), // Centered horizontally (720/2), positioned at ~1/4 from top
+                Size2D = new Size2D(200, 200), // Set appropriate size for the chef hat
+                Position2D = new Position2D(260, 400), // Centered horizontally (720/2 - 100), positioned vertically to match design
                 PositionUsesPivotPoint = true,
                 PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
-                ParentOrigin = new Position(0.5f, 0.0f, 0.5f) // Top center parent origin
+                ParentOrigin = new Position(0.5f, 0.5f, 0.5f) // Center parent origin
             };
 
             // Create the text logo (Group_2.png) - "Chef Recipes" text
-            // Position it below the chef hat icon, centered
+            // Position it below the chef hat icon, centered, matching the uploaded design spacing
             ImageView textLogo = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group_2.png"),
-                Position2D = new Position2D(360, 580), // Centered horizontally, positioned below chef hat
+                Size2D = new Size2D(300, 120), // Set appropriate size for the text
+                Position2D = new Position2D(210, 650), // Centered horizontally, positioned below chef hat with proper spacing
                 PositionUsesPivotPoint = true,
                 PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
-                ParentOrigin = new Position(0.5f, 0.0f, 0.5f) // Top center parent origin
+                ParentOrigin = new Position(0.5f, 0.5f, 0.5f) // Center parent origin
             };
 
             // Add all elements to the splash screen

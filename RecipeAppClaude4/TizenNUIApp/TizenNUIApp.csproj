@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>tizen10.0;tizen7.0</TargetFrameworks>
-    <TizenCreateTpkOnBuild>false</TizenCreateTpkOnBuild>
+    <TizenCreateTpkOnBuild>true</TizenCreateTpkOnBuild>
     <UseAppHost>false</UseAppHost>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>

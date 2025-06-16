@@ -11,6 +11,7 @@ namespace TizenNUIApp
         private View categoryTabsView;
         private ScrollView recipeScrollView;
         private View recipeCardsContainer;
+        private View recipeSection;
 
         // Colors based on typical recipe app design
         private readonly Color backgroundColor = new Color(0.98f, 0.98f, 0.98f, 1.0f);
@@ -19,6 +20,14 @@ namespace TizenNUIApp
         private readonly Color secondaryTextColor = new Color(0.6f, 0.6f, 0.6f, 1.0f);
         private readonly Color accentColor = new Color(0.95f, 0.4f, 0.4f, 1.0f); // Coral/salmon color
         private readonly Color cardBackgroundColor = Color.White;
+
+        // Current active category
+        private string currentCategory = "APPETIZERS";
+
+        // Tab references for dynamic updates
+        private View appetizersTab;
+        private View entreesTab;
+        private View dessertTab;
 
         public RecipeHomePage()
         {
@@ -111,15 +120,15 @@ namespace TizenNUIApp
                 Padding = new Extents(0, 0, 10, 10)
             };
 
-            // Create category tabs
-            CreateCategoryTab("APPETIZERS", true);
-            CreateCategoryTab("ENTREES", false);
-            CreateCategoryTab("DESSERT", false);
+            // Create category tabs and store references
+            appetizersTab = CreateCategoryTab("APPETIZERS", true);
+            entreesTab = CreateCategoryTab("ENTREES", false);
+            dessertTab = CreateCategoryTab("DESSERT", false);
 
             Add(categoryTabsView);
         }
 
-        private void CreateCategoryTab(string text, bool isActive)
+        private View CreateCategoryTab(string text, bool isActive)
         {
             View tabContainer = new View()
             {
@@ -128,7 +137,8 @@ namespace TizenNUIApp
                 {
                     LinearOrientation = LinearLayout.Orientation.Vertical,
                     LinearAlignment = LinearLayout.Alignment.Center
-                }
+                },
+                Focusable = true
             };
 
             TextLabel tabLabel = new TextLabel(text)
@@ -143,9 +153,10 @@ namespace TizenNUIApp
             };
 
             // Active tab underline
+            View underline = null;
             if (isActive)
             {
-                View underline = new View()
+                underline = new View()
                 {
                     Size2D = new Size2D(60, 3),
                     BackgroundColor = accentColor,
@@ -154,8 +165,21 @@ namespace TizenNUIApp
                 tabContainer.Add(underline);
             }
 
+            // Add click event handler
+            tabContainer.TouchEvent += (sender, e) =>
+            {
+                if (e.Touch.GetState(0) == PointStateType.Up)
+                {
+                    SwitchToCategory(text);
+                    return true;
+                }
+                return false;
+            };
+
             tabContainer.Add(tabLabel);
             categoryTabsView.Add(tabContainer);
+            
+            return tabContainer;
         }
 
         private void CreateRecipeScrollView()
@@ -307,12 +331,30 @@ namespace TizenNUIApp
         {
             switch (title)
             {
+                // Appetizers
+                case "Stuffed Mushrooms":
+                    return "Delicious button mushrooms stuffed with a savory mixture of breadcrumbs, herbs, and cheese. Perfect for parties and gatherings.";
+                case "Bruschetta":
+                    return "Classic Italian appetizer with toasted bread topped with fresh tomatoes, basil, and garlic. Simple yet elegant.";
+                case "Shrimp Cocktail":
+                    return "Chilled jumbo shrimp served with tangy cocktail sauce. A timeless appetizer that never goes out of style.";
+                
+                // Entrees
                 case "Prime Rib Roast":
                     return "The Prime Rib Roast is a classic and tender cut of beef taken from the rib primal cut. Learn how to make the perfect prime rib roast to serve your family and friends. Check out What's Cooking America's award-winning Classic Prime Rib Roast recipe and photo tutorial to help you make the Perfect Prime Rib Roast.";
                 case "Grilled Salmon":
                     return "Fresh Atlantic salmon grilled to perfection with herbs and lemon. A healthy and delicious meal that's perfect for any occasion.";
+                case "Chicken Parmesan":
+                    return "Crispy breaded chicken breast topped with marinara sauce and melted mozzarella cheese. A family favorite that's sure to please.";
+                
+                // Desserts
                 case "Chocolate Cake":
                     return "Rich, moist chocolate cake with layers of decadent chocolate frosting. A dessert that will satisfy any chocolate lover's cravings.";
+                case "Tiramisu":
+                    return "Classic Italian dessert with layers of coffee-soaked ladyfingers and creamy mascarpone cheese. An elegant end to any meal.";
+                case "Apple Pie":
+                    return "Traditional American apple pie with flaky crust and cinnamon-spiced apple filling. Serve warm with vanilla ice cream.";
+                
                 default:
                     return "A delicious recipe that will delight your taste buds and impress your guests.";
             }
@@ -394,6 +436,91 @@ namespace TizenNUIApp
             statView.Add(valueLabel);
 
             return statView;
+        }
+
+        private void SwitchToCategory(string category)
+        {
+            if (currentCategory == category) return; // Already on this category
+
+            currentCategory = category;
+            UpdateTabAppearance();
+            RefreshRecipeCards();
+        }
+
+        private void UpdateTabAppearance()
+        {
+            // Update all tabs to inactive state first
+            UpdateTabState(appetizersTab, "APPETIZERS", currentCategory == "APPETIZERS");
+            UpdateTabState(entreesTab, "ENTREES", currentCategory == "ENTREES");
+            UpdateTabState(dessertTab, "DESSERT", currentCategory == "DESSERT");
+        }
+
+        private void UpdateTabState(View tabContainer, string tabText, bool isActive)
+        {
+            // Clear existing children
+            while (tabContainer.ChildCount > 0)
+            {
+                View child = tabContainer.GetChildAt(0);
+                tabContainer.Remove(child);
+                child?.Dispose();
+            }
+
+            // Recreate tab label
+            TextLabel tabLabel = new TextLabel(tabText)
+            {
+                Size2D = new Size2D(240, 40),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextColor = isActive ? primaryTextColor : secondaryTextColor,
+                PointSize = (16.0f / 1.33f) - 4,
+                FontFamily = "Samsung One 400",
+                FontStyle = isActive ? new PropertyMap().Add("weight", new PropertyValue("bold")) : new PropertyMap()
+            };
+
+            // Add underline if active
+            if (isActive)
+            {
+                View underline = new View()
+                {
+                    Size2D = new Size2D(60, 3),
+                    BackgroundColor = accentColor,
+                    Position2D = new Position2D(90, 50)
+                };
+                tabContainer.Add(underline);
+            }
+
+            tabContainer.Add(tabLabel);
+        }
+
+        private void RefreshRecipeCards()
+        {
+            // Clear existing cards
+            while (recipeCardsContainer.ChildCount > 0)
+            {
+                View child = recipeCardsContainer.GetChildAt(0);
+                recipeCardsContainer.Remove(child);
+                child?.Dispose();
+            }
+
+            // Add new cards based on category
+            switch (currentCategory)
+            {
+                case "APPETIZERS":
+                    CreateRecipeCard("Stuffed Mushrooms", "25MIN", "342", "78", "appetizer.png");
+                    CreateRecipeCard("Bruschetta", "15MIN", "289", "45", "maskgroup0.png");
+                    CreateRecipeCard("Shrimp Cocktail", "20MIN", "456", "92", "maskgroup1.png");
+                    break;
+                case "ENTREES":
+                    CreateRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
+                    CreateRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
+                    CreateRecipeCard("Chicken Parmesan", "45MIN", "567", "134", "rectangle0.png");
+                    break;
+                case "DESSERT":
+                    CreateRecipeCard("Chocolate Cake", "2HR", "892", "156", "dessert.png");
+                    CreateRecipeCard("Tiramisu", "4HR", "634", "98", "rectangle0.png");
+                    CreateRecipeCard("Apple Pie", "1HR", "523", "87", "maskgroup0.png");
+                    break;
+            }
         }
     }
 }

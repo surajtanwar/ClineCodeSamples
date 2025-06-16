@@ -31,8 +31,8 @@ A splash screen has been successfully implemented for the Tizen NUI application 
 
 ### Visual Elements
 1. **Background**: Rectangle.png - Coral/pink gradient background filling entire 720x1280 screen
-2. **Chef Hat Icon**: Group.png - White chef hat icon centered horizontally, positioned in upper portion (360, 320)
-3. **Text Logo**: Group_2.png - "Chef Recipes" text in white script font, centered below chef hat (360, 580)
+2. **Chef Hat Icon**: Group.png - White chef hat icon properly centered horizontally (260, 440) using calculated center positioning
+3. **Text Logo**: Group_2.png - "Chef Recipes" text in white script font, properly centered horizontally below chef hat (210, 680)
 
 ### Image Resources Used
 - `res/images/splash/Rectangle.png` - Background with gradient effect

@@ -7,3 +7,5 @@
 - Resolved `Dispose()` method signature issues
 - Commented out `BoxShadow` property that may not be available in all Tizen versions
 - **Updated resource paths**: Changed from relative paths to proper Tizen resource paths using `Application.Current.DirectoryInfo.Resource` and `System.IO.Path.Combine()` similar to SplashScreen.cs
+- **Fixed carousel scrolling**: Updated ScrollView to scroll horizontally instead of vertically by setting `ScrollingDirection = ScrollView.Direction.Horizontal` and `ClampingType = ClampingType.ClampToEdge`
+- **Optimized container sizing**: Set recipe cards container width to 1000px to accommodate all cards and enable proper horizontal scrolling

@@ -13,6 +13,9 @@ namespace TizenNUIApp
         private View recipeCardsContainer;
         private View recipeSection;
 
+        // Event for menu button click
+        public event EventHandler MenuButtonClicked;
+
         // Colors based on typical recipe app design
         private readonly Color backgroundColor = new Color(0.98f, 0.98f, 0.98f, 1.0f);
         private readonly Color headerColor = Color.White;
@@ -78,6 +81,17 @@ namespace TizenNUIApp
                 FittingMode = FittingModeType.ScaleToFill
             };
 
+            // Add click event for menu button
+            menuButton.TouchEvent += (sender, e) =>
+            {
+                if (e.Touch.GetState(0) == PointStateType.Up)
+                {
+                    MenuButtonClicked?.Invoke(this, EventArgs.Empty);
+                    return true;
+                }
+                return false;
+            };
+
             // Title
             TextLabel titleLabel = new TextLabel("POPULAR RECIPES")
             {
@@ -85,7 +99,7 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = accentColor,
-                PointSize = (24.0f / 1.33f) - 4, // Converting from px to pt: 24px / 1.33 = 18pt, then -4 = 14pt
+                PointSize = (24.0f / 1.33f) - 6, // Converting from px to pt: 24px / 1.33 = 18pt, then -4 = 14pt
                 FontFamily = "Samsung One 600",
                 FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
             };
@@ -200,6 +214,10 @@ namespace TizenNUIApp
                 Position2D = new Position2D(0, 0)
             };
 
+            // Configure horizontal scrolling
+            recipeScrollView.SetAxisAutoLock(true);
+            recipeScrollView.SetAxisAutoLockGradient(1.0f);
+
             recipeCardsContainer = new View()
             {
                 Layout = new LinearLayout()
@@ -207,7 +225,9 @@ namespace TizenNUIApp
                     LinearOrientation = LinearLayout.Orientation.Horizontal,
                     CellPadding = new Size2D(20, 0)
                 },
-                Padding = new Extents(20, 20, 20, 20)
+                Padding = new Extents(20, 20, 20, 20),
+                // Set a width that accommodates all cards to enable horizontal scrolling
+                Size2D = new Size2D(1000, 600) // Width larger than container to enable scrolling
             };
 
             // Create recipe cards for carousel
@@ -521,6 +541,10 @@ namespace TizenNUIApp
                     CreateRecipeCard("Apple Pie", "1HR", "523", "87", "maskgroup0.png");
                     break;
             }
+
+            // Ensure container width accommodates all cards for horizontal scrolling
+            // Each card is 300px wide + 20px margin, so 3 cards = 960px + padding
+            recipeCardsContainer.Size2D = new Size2D(1000, 600);
         }
     }
 }

@@ -38,25 +38,26 @@ namespace TizenNUIApp
                 HeightResizePolicy = ResizePolicyType.FillToParent
             };
 
-            // Create the main chef hat icon (Group.png) - centered and positioned to match the uploaded design
-            // The chef hat should be centered horizontally and positioned in the upper-middle area
+            // Create the main chef hat icon (Group.png) - properly centered
+            // Using center positioning: screen width/2 - image width/2 for horizontal center
+            // Positioned in upper-middle area for vertical placement
             ImageView chefHatIcon = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group.png"),
                 Size2D = new Size2D(200, 200), // Set appropriate size for the chef hat
-                Position2D = new Position2D(260, 400), // Centered horizontally (720/2 - 100), positioned vertically to match design
+                Position2D = new Position2D(260, 440), // Centered horizontally (720/2 - 200/2 = 260), positioned vertically
                 PositionUsesPivotPoint = true,
                 PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
                 ParentOrigin = new Position(0.5f, 0.5f, 0.5f) // Center parent origin
             };
 
-            // Create the text logo (Group_2.png) - "Chef Recipes" text
-            // Position it below the chef hat icon, centered, matching the uploaded design spacing
+            // Create the text logo (Group_2.png) - "Chef Recipes" text, properly centered
+            // Position it below the chef hat icon, centered horizontally
             ImageView textLogo = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group_2.png"),
                 Size2D = new Size2D(300, 120), // Set appropriate size for the text
-                Position2D = new Position2D(210, 650), // Centered horizontally, positioned below chef hat with proper spacing
+                Position2D = new Position2D(210, 680), // Centered horizontally (720/2 - 300/2 = 210), positioned below chef hat
                 PositionUsesPivotPoint = true,
                 PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
                 ParentOrigin = new Position(0.5f, 0.5f, 0.5f) // Center parent origin

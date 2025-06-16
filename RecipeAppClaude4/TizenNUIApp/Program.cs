@@ -9,6 +9,9 @@ namespace TizenNUIApp
         private Window window;
         private View mainView;
         private SplashScreen splashScreen;
+        private RecipeHomePage recipeHomePage;
+        private MenuPage menuPage;
+        private View currentPage;
 
         protected override void OnCreate()
         {
@@ -51,7 +54,76 @@ namespace TizenNUIApp
         void ShowMainContent()
         {
             // Create and show the Recipe Home Page
-            var recipeHomePage = new RecipeHomePage();
+            recipeHomePage = new RecipeHomePage();
+            recipeHomePage.MenuButtonClicked += OnMenuButtonClicked;
+            currentPage = recipeHomePage;
+            window.Add(recipeHomePage);
+        }
+
+        void OnMenuButtonClicked(object sender, EventArgs e)
+        {
+            ShowMenuPage();
+        }
+
+        void ShowMenuPage()
+        {
+            // Remove current page
+            if (currentPage != null)
+            {
+                window.Remove(currentPage);
+            }
+
+            // Create and show menu page
+            if (menuPage == null)
+            {
+                menuPage = new MenuPage();
+                menuPage.MenuItemSelected += OnMenuItemSelected;
+            }
+            
+            currentPage = menuPage;
+            window.Add(menuPage);
+        }
+
+        void OnMenuItemSelected(object sender, MenuItemSelectedEventArgs e)
+        {
+            switch (e.MenuItem)
+            {
+                case "back":
+                    ShowRecipeHomePage();
+                    break;
+                case "my_recipes":
+                case "favorites":
+                case "recently_viewed":
+                case "shopping_list":
+                case "appetizers":
+                case "main_courses":
+                case "desserts":
+                case "beverages":
+                case "snacks":
+                case "cooking_timer":
+                case "unit_converter":
+                case "meal_planner":
+                case "nutrition_info":
+                case "profile":
+                case "settings":
+                case "help_&_support":
+                case "about":
+                    // Handle other menu items - for now just show a placeholder
+                    // In a real app, you would navigate to the appropriate page
+                    break;
+            }
+        }
+
+        void ShowRecipeHomePage()
+        {
+            // Remove current page
+            if (currentPage != null)
+            {
+                window.Remove(currentPage);
+            }
+
+            // Show recipe home page
+            currentPage = recipeHomePage;
             window.Add(recipeHomePage);
         }
 

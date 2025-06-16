@@ -91,25 +91,18 @@ namespace TizenNUIApp
                 case "back":
                     ShowRecipeHomePage();
                     break;
-                case "my_recipes":
-                case "favorites":
-                case "recently_viewed":
+                case "popular_recipes":
+                    // Navigate back to home page since it shows popular recipes
+                    ShowRecipeHomePage();
+                    break;
+                case "saved_recipes":
                 case "shopping_list":
-                case "appetizers":
-                case "main_courses":
-                case "desserts":
-                case "beverages":
-                case "snacks":
-                case "cooking_timer":
-                case "unit_converter":
-                case "meal_planner":
-                case "nutrition_info":
-                case "profile":
                 case "settings":
-                case "help_&_support":
-                case "about":
+                case "profile":
                     // Handle other menu items - for now just show a placeholder
                     // In a real app, you would navigate to the appropriate page
+                    // For now, just go back to home page
+                    ShowRecipeHomePage();
                     break;
             }
         }

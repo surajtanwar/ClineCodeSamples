@@ -203,13 +203,13 @@ namespace TizenNUIApp
             {
                 Size2D = new Size2D(720, 1080),
                 BackgroundColor = backgroundColor,
-                Padding = new Extents(20, 20, 20, 20)
+                Padding = new Extents(0, 0, 0, 0)
             };
 
-            // Horizontal scroll view for carousel
+            // Horizontal scroll view for full-screen cards
             recipeScrollView = new ScrollView()
             {
-                Size2D = new Size2D(720, 600), // Height for one card plus some padding
+                Size2D = new Size2D(720, 1080),
                 BackgroundColor = backgroundColor,
                 Position2D = new Position2D(0, 0)
             };
@@ -223,21 +223,167 @@ namespace TizenNUIApp
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Horizontal,
-                    CellPadding = new Size2D(20, 0)
+                    CellPadding = new Size2D(0, 0)
                 },
-                Padding = new Extents(20, 20, 20, 20),
+                Padding = new Extents(0, 0, 0, 0),
                 // Set a width that accommodates all cards to enable horizontal scrolling
-                Size2D = new Size2D(1000, 600) // Width larger than container to enable scrolling
+                Size2D = new Size2D(2160, 1080) // Width for 3 full-screen cards (720 * 3)
             };
 
-            // Create recipe cards for carousel
-            CreateRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
-            CreateRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
-            CreateRecipeCard("Chocolate Cake", "2HR", "892", "156", "rectangle0.png");
+            // Create full-screen recipe cards
+            CreateFullScreenRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
+            CreateFullScreenRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
+            CreateFullScreenRecipeCard("Chocolate Cake", "2HR", "892", "156", "rectangle0.png");
 
             recipeScrollView.Add(recipeCardsContainer);
             recipeSection.Add(recipeScrollView);
             Add(recipeSection);
+        }
+
+        private void CreateFullScreenRecipeCard(string title, string time, string likes, string comments, string imageName)
+        {
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
+            View cardView = new View()
+            {
+                Size2D = new Size2D(720, 1080), // Full screen width and height
+                BackgroundColor = cardBackgroundColor,
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Vertical,
+                    CellPadding = new Size2D(0, 0)
+                }
+            };
+
+            // Recipe image - takes up top portion of screen
+            ImageView recipeImage = new ImageView()
+            {
+                Size2D = new Size2D(720, 400), // Large image at top
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", imageName),
+                FittingMode = FittingModeType.ScaleToFill
+            };
+
+            // Heart button overlay on image
+            ImageView heartButton = new ImageView()
+            {
+                Size2D = new Size2D(40, 40),
+                Position2D = new Position2D(650, 30), // Top right of image
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", "button-heart0.svg"),
+                FittingMode = FittingModeType.ScaleToFill
+            };
+
+            // Content area below image
+            View contentView = new View()
+            {
+                Size2D = new Size2D(720, 680), // Remaining space below image
+                BackgroundColor = cardBackgroundColor,
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Vertical,
+                    CellPadding = new Size2D(0, 20)
+                },
+                Padding = new Extents(30, 30, 30, 30)
+            };
+
+            // Star rating
+            View starRatingView = CreateStarRating();
+
+            // Recipe title - larger for full screen
+            TextLabel titleLabel = new TextLabel(title)
+            {
+                Size2D = new Size2D(660, 50),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextColor = primaryTextColor,
+                PointSize = (28.0f / 1.33f) - 4, // Larger title for full screen
+                FontFamily = "Samsung One 600",
+                FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
+            };
+
+            // Stats row - centered and larger
+            View statsView = new View()
+            {
+                Size2D = new Size2D(660, 50),
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Horizontal,
+                    LinearAlignment = LinearLayout.Alignment.Center,
+                    CellPadding = new Size2D(40, 0)
+                }
+            };
+
+            // Time, Likes, Comments with larger icons and text
+            View timeView = CreateLargeStatItem("icons0.svg", time);
+            View likesView = CreateLargeStatItem("icons1.svg", likes);
+            View commentsView = CreateLargeStatItem("icons2.svg", comments);
+
+            statsView.Add(timeView);
+            statsView.Add(likesView);
+            statsView.Add(commentsView);
+
+            // Recipe description - larger and more space
+            string description = GetRecipeDescription(title);
+            TextLabel descriptionLabel = new TextLabel(description)
+            {
+                Size2D = new Size2D(660, 400), // Much more space for description
+                HorizontalAlignment = HorizontalAlignment.Begin,
+                VerticalAlignment = VerticalAlignment.Top,
+                TextColor = secondaryTextColor,
+                PointSize = (16.0f / 1.33f) - 2, // Larger text for readability
+                FontFamily = "Samsung One 400",
+                MultiLine = true
+            };
+
+            contentView.Add(starRatingView);
+            contentView.Add(titleLabel);
+            contentView.Add(statsView);
+            contentView.Add(descriptionLabel);
+
+            cardView.Add(recipeImage);
+            cardView.Add(heartButton);
+            cardView.Add(contentView);
+
+            recipeCardsContainer.Add(cardView);
+        }
+
+        private View CreateLargeStatItem(string iconName, string value)
+        {
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
+            View statView = new View()
+            {
+                Size2D = new Size2D(120, 50),
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Horizontal,
+                    LinearAlignment = LinearLayout.Alignment.Center,
+                    CellPadding = new Size2D(10, 0)
+                }
+            };
+
+            ImageView icon = new ImageView()
+            {
+                Size2D = new Size2D(24, 24), // Larger icons
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", iconName),
+                FittingMode = FittingModeType.ScaleToFill
+            };
+
+            TextLabel valueLabel = new TextLabel(value)
+            {
+                Size2D = new Size2D(80, 50),
+                HorizontalAlignment = HorizontalAlignment.Begin,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextColor = secondaryTextColor,
+                PointSize = (16.0f / 1.33f) - 2, // Larger text
+                FontFamily = "Samsung One 400"
+            };
+
+            statView.Add(icon);
+            statView.Add(valueLabel);
+
+            return statView;
         }
 
         private void CreateRecipeCard(string title, string time, string likes, string comments, string imageName)
@@ -522,29 +668,29 @@ namespace TizenNUIApp
                 child?.Dispose();
             }
 
-            // Add new cards based on category
+            // Add new full-screen cards based on category
             switch (currentCategory)
             {
                 case "APPETIZERS":
-                    CreateRecipeCard("Stuffed Mushrooms", "25MIN", "342", "78", "appetizer.png");
-                    CreateRecipeCard("Bruschetta", "15MIN", "289", "45", "maskgroup0.png");
-                    CreateRecipeCard("Shrimp Cocktail", "20MIN", "456", "92", "maskgroup1.png");
+                    CreateFullScreenRecipeCard("Stuffed Mushrooms", "25MIN", "342", "78", "appetizer.png");
+                    CreateFullScreenRecipeCard("Bruschetta", "15MIN", "289", "45", "maskgroup0.png");
+                    CreateFullScreenRecipeCard("Shrimp Cocktail", "20MIN", "456", "92", "maskgroup1.png");
                     break;
                 case "ENTREES":
-                    CreateRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
-                    CreateRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
-                    CreateRecipeCard("Chicken Parmesan", "45MIN", "567", "134", "rectangle0.png");
+                    CreateFullScreenRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
+                    CreateFullScreenRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
+                    CreateFullScreenRecipeCard("Chicken Parmesan", "45MIN", "567", "134", "rectangle0.png");
                     break;
                 case "DESSERT":
-                    CreateRecipeCard("Chocolate Cake", "2HR", "892", "156", "dessert.png");
-                    CreateRecipeCard("Tiramisu", "4HR", "634", "98", "rectangle0.png");
-                    CreateRecipeCard("Apple Pie", "1HR", "523", "87", "maskgroup0.png");
+                    CreateFullScreenRecipeCard("Chocolate Cake", "2HR", "892", "156", "dessert.png");
+                    CreateFullScreenRecipeCard("Tiramisu", "4HR", "634", "98", "rectangle0.png");
+                    CreateFullScreenRecipeCard("Apple Pie", "1HR", "523", "87", "maskgroup0.png");
                     break;
             }
 
-            // Ensure container width accommodates all cards for horizontal scrolling
-            // Each card is 300px wide + 20px margin, so 3 cards = 960px + padding
-            recipeCardsContainer.Size2D = new Size2D(1000, 600);
+            // Ensure container width accommodates all full-screen cards for horizontal scrolling
+            // Each card is 720px wide, so 3 cards = 2160px
+            recipeCardsContainer.Size2D = new Size2D(2160, 1080);
         }
     }
 }

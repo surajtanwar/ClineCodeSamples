@@ -8,17 +8,13 @@ namespace TizenNUIApp
     public class MenuPage : View
     {
         private View headerView;
-        private ScrollView menuScrollView;
         private View menuItemsContainer;
+        private View profileSection;
 
-        // Colors consistent with the app design
-        private readonly Color backgroundColor = new Color(0.98f, 0.98f, 0.98f, 1.0f);
-        private readonly Color headerColor = Color.White;
-        private readonly Color primaryTextColor = new Color(0.2f, 0.2f, 0.2f, 1.0f);
-        private readonly Color secondaryTextColor = new Color(0.6f, 0.6f, 0.6f, 1.0f);
-        private readonly Color accentColor = new Color(0.95f, 0.4f, 0.4f, 1.0f); // Coral/salmon color
-        private readonly Color menuItemBackgroundColor = Color.White;
-        private readonly Color separatorColor = new Color(0.9f, 0.9f, 0.9f, 1.0f);
+        // Colors matching the design
+        private readonly Color menuBackgroundColor = new Color(0.95f, 0.4f, 0.4f, 1.0f); // Coral/salmon color
+        private readonly Color whiteTextColor = Color.White;
+        private readonly Color indicatorColor = Color.White;
 
         // Event for navigation
         public event EventHandler<MenuItemSelectedEventArgs> MenuItemSelected;
@@ -32,7 +28,7 @@ namespace TizenNUIApp
         private void InitializeComponent()
         {
             Size2D = new Size2D(720, 1280);
-            BackgroundColor = backgroundColor;
+            BackgroundColor = menuBackgroundColor;
             Layout = new LinearLayout()
             {
                 LinearOrientation = LinearLayout.Orientation.Vertical
@@ -42,7 +38,8 @@ namespace TizenNUIApp
         private void CreateLayout()
         {
             CreateHeader();
-            CreateMenuScrollView();
+            CreateMenuItems();
+            CreateProfileSection();
         }
 
         private void CreateHeader()
@@ -53,26 +50,25 @@ namespace TizenNUIApp
             headerView = new View()
             {
                 Size2D = new Size2D(720, 120),
-                BackgroundColor = headerColor,
+                BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Horizontal,
-                    LinearAlignment = LinearLayout.Alignment.Center,
-                    CellPadding = new Size2D(20, 0)
+                    LinearAlignment = LinearLayout.Alignment.End
                 },
                 Padding = new Extents(20, 20, 40, 20)
             };
 
-            // Back button (using menu icon as placeholder)
-            ImageView backButton = new ImageView()
+            // Hamburger menu button (close menu)
+            ImageView menuButton = new ImageView()
             {
                 Size2D = new Size2D(32, 32),
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "menu", "btn-menu0.svg"),
                 FittingMode = FittingModeType.ScaleToFill
             };
 
-            // Add click event for back button
-            backButton.TouchEvent += (sender, e) =>
+            // Add click event for menu button (close menu)
+            menuButton.TouchEvent += (sender, e) =>
             {
                 if (e.Touch.GetState(0) == PointStateType.Up)
                 {
@@ -82,158 +78,77 @@ namespace TizenNUIApp
                 return false;
             };
 
-            // Title
-            TextLabel titleLabel = new TextLabel("MENU")
-            {
-                Size2D = new Size2D(520, 60),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextColor = accentColor,
-                PointSize = (24.0f / 1.33f) - 6, // Converting from px to pt: 24px / 1.33 = 18pt, then -6 = 12pt
-                FontFamily = "Samsung One 600",
-                FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
-            };
-
-            // Profile/Settings icon (using ellipse as placeholder)
-            ImageView profileButton = new ImageView()
-            {
-                Size2D = new Size2D(32, 32),
-                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "menu", "ellipse0.png"),
-                FittingMode = FittingModeType.ScaleToFill
-            };
-
-            // Add click event for profile button
-            profileButton.TouchEvent += (sender, e) =>
-            {
-                if (e.Touch.GetState(0) == PointStateType.Up)
-                {
-                    OnMenuItemSelected("profile");
-                    return true;
-                }
-                return false;
-            };
-
-            headerView.Add(backButton);
-            headerView.Add(titleLabel);
-            headerView.Add(profileButton);
-
+            headerView.Add(menuButton);
             Add(headerView);
         }
 
-        private void CreateMenuScrollView()
+        private void CreateMenuItems()
         {
-            // Main container for the menu section
-            View menuSection = new View()
-            {
-                Size2D = new Size2D(720, 1160),
-                BackgroundColor = backgroundColor,
-                Padding = new Extents(0, 0, 20, 20)
-            };
-
-            // Vertical scroll view for menu items
-            menuScrollView = new ScrollView()
-            {
-                Size2D = new Size2D(720, 1160),
-                BackgroundColor = backgroundColor,
-                Position2D = new Position2D(0, 0)
-            };
-
-            // Configure vertical scrolling
-            menuScrollView.SetAxisAutoLock(true);
-            menuScrollView.SetAxisAutoLockGradient(1.0f);
-
             menuItemsContainer = new View()
             {
+                Size2D = new Size2D(720, 800),
+                BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Vertical,
-                    CellPadding = new Size2D(0, 0)
+                    CellPadding = new Size2D(0, 30)
                 },
-                Padding = new Extents(0, 0, 0, 0),
-                Size2D = new Size2D(720, 1400) // Height larger than container to enable scrolling
+                Padding = new Extents(30, 30, 80, 0)
             };
 
-            // Create menu sections
-            CreateMenuSection("RECIPES", new string[] { "My Recipes", "Favorites", "Recently Viewed", "Shopping List" });
-            CreateMenuSection("CATEGORIES", new string[] { "Appetizers", "Main Courses", "Desserts", "Beverages", "Snacks" });
-            CreateMenuSection("COOKING", new string[] { "Cooking Timer", "Unit Converter", "Meal Planner", "Nutrition Info" });
-            CreateMenuSection("ACCOUNT", new string[] { "Profile", "Settings", "Help & Support", "About" });
+            // Create menu items as shown in the image
+            CreateMenuItem("POPULAR RECIPES", true); // First item has indicator
+            CreateMenuItem("SAVED RECIPES", false);
+            CreateMenuItem("SHOPPING LIST", false);
+            CreateMenuItem("SETTINGS", false);
 
-            menuScrollView.Add(menuItemsContainer);
-            menuSection.Add(menuScrollView);
-            Add(menuSection);
+            Add(menuItemsContainer);
         }
 
-        private void CreateMenuSection(string sectionTitle, string[] menuItems)
-        {
-            // Section header
-            View sectionHeaderView = new View()
-            {
-                Size2D = new Size2D(720, 60),
-                BackgroundColor = backgroundColor,
-                Padding = new Extents(30, 30, 15, 15)
-            };
-
-            TextLabel sectionLabel = new TextLabel(sectionTitle)
-            {
-                Size2D = new Size2D(660, 30),
-                HorizontalAlignment = HorizontalAlignment.Begin,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextColor = secondaryTextColor,
-                PointSize = (14.0f / 1.33f) - 4, // Converting from px to pt: 14px / 1.33 = 10.5pt, then -4 = 6.5pt
-                FontFamily = "Samsung One 600",
-                FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
-            };
-
-            sectionHeaderView.Add(sectionLabel);
-            menuItemsContainer.Add(sectionHeaderView);
-
-            // Menu items in this section
-            foreach (string itemText in menuItems)
-            {
-                CreateMenuItem(itemText);
-            }
-
-            // Add separator after section
-            CreateSeparator();
-        }
-
-        private void CreateMenuItem(string itemText)
+        private void CreateMenuItem(string itemText, bool hasIndicator)
         {
             View menuItemView = new View()
             {
-                Size2D = new Size2D(720, 70),
-                BackgroundColor = menuItemBackgroundColor,
-                Margin = new Extents(20, 20, 0, 0),
-                Padding = new Extents(30, 30, 0, 0),
+                Size2D = new Size2D(660, 60),
+                BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Horizontal,
-                    LinearAlignment = LinearLayout.Alignment.Center,
+                    LinearAlignment = LinearLayout.Alignment.Begin,
                     CellPadding = new Size2D(20, 0)
                 },
                 Focusable = true
             };
 
+            // White vertical line indicator for active item
+            if (hasIndicator)
+            {
+                View indicator = new View()
+                {
+                    Size2D = new Size2D(4, 40),
+                    BackgroundColor = indicatorColor
+                };
+                menuItemView.Add(indicator);
+            }
+            else
+            {
+                // Add spacing for non-active items to align text
+                View spacer = new View()
+                {
+                    Size2D = new Size2D(24, 40),
+                    BackgroundColor = menuBackgroundColor
+                };
+                menuItemView.Add(spacer);
+            }
+
             // Menu item text
             TextLabel itemLabel = new TextLabel(itemText)
             {
-                Size2D = new Size2D(600, 70),
+                Size2D = new Size2D(600, 60),
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
-                TextColor = primaryTextColor,
-                PointSize = (18.0f / 1.33f) - 4, // Converting from px to pt: 18px / 1.33 = 13.5pt, then -4 = 9.5pt
-                FontFamily = "Samsung One 400"
-            };
-
-            // Arrow indicator (using a simple text arrow)
-            TextLabel arrowLabel = new TextLabel(">")
-            {
-                Size2D = new Size2D(40, 70),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextColor = secondaryTextColor,
-                PointSize = (16.0f / 1.33f) - 4, // Converting from px to pt: 16px / 1.33 = 12pt, then -4 = 8pt
+                TextColor = whiteTextColor,
+                PointSize = (20.0f / 1.33f) - 2, // Converting from px to pt: 20px / 1.33 = 15pt, then -2 = 13pt
                 FontFamily = "Samsung One 400"
             };
 
@@ -248,31 +163,63 @@ namespace TizenNUIApp
                 return false;
             };
 
-            // Add hover effect
-            menuItemView.FocusGained += (sender, e) =>
-            {
-                menuItemView.BackgroundColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-            };
-
-            menuItemView.FocusLost += (sender, e) =>
-            {
-                menuItemView.BackgroundColor = menuItemBackgroundColor;
-            };
-
             menuItemView.Add(itemLabel);
-            menuItemView.Add(arrowLabel);
             menuItemsContainer.Add(menuItemView);
         }
 
-        private void CreateSeparator()
+        private void CreateProfileSection()
         {
-            View separator = new View()
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
+            profileSection = new View()
             {
-                Size2D = new Size2D(720, 20),
-                BackgroundColor = backgroundColor
+                Size2D = new Size2D(720, 360),
+                BackgroundColor = menuBackgroundColor,
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Vertical,
+                    LinearAlignment = LinearLayout.Alignment.End,
+                    CellPadding = new Size2D(0, 20)
+                },
+                Padding = new Extents(30, 30, 60, 60)
             };
 
-            menuItemsContainer.Add(separator);
+            // Profile image (circular)
+            ImageView profileImage = new ImageView()
+            {
+                Size2D = new Size2D(80, 80),
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "menu", "ellipse0.png"),
+                FittingMode = FittingModeType.ScaleToFill,
+                CornerRadius = 40.0f // Make it circular
+            };
+
+            // User name
+            TextLabel nameLabel = new TextLabel("HARRY TRUMAN")
+            {
+                Size2D = new Size2D(660, 40),
+                HorizontalAlignment = HorizontalAlignment.Begin,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextColor = whiteTextColor,
+                PointSize = (18.0f / 1.33f) - 2, // Converting from px to pt: 18px / 1.33 = 13.5pt, then -2 = 11.5pt
+                FontFamily = "Samsung One 600",
+                FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
+            };
+
+            // Add click event for profile section
+            profileSection.TouchEvent += (sender, e) =>
+            {
+                if (e.Touch.GetState(0) == PointStateType.Up)
+                {
+                    OnMenuItemSelected("profile");
+                    return true;
+                }
+                return false;
+            };
+
+            profileSection.Add(profileImage);
+            profileSection.Add(nameLabel);
+            Add(profileSection);
         }
 
         private void OnMenuItemSelected(string menuItem)

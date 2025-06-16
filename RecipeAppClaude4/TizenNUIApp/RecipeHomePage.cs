@@ -1,6 +1,7 @@
 using System;
 using Tizen.NUI;
 using Tizen.NUI.BaseComponents;
+using Tizen.Applications;
 
 namespace TizenNUIApp
 {
@@ -44,6 +45,9 @@ namespace TizenNUIApp
 
         private void CreateHeader()
         {
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
             headerView = new View()
             {
                 Size2D = new Size2D(720, 120),
@@ -61,7 +65,7 @@ namespace TizenNUIApp
             ImageView menuButton = new ImageView()
             {
                 Size2D = new Size2D(32, 32),
-                ResourceUrl = "res/images/home/btn-menu0.svg",
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", "btn-menu0.svg"),
                 FittingMode = FittingModeType.ScaleToFill
             };
 
@@ -72,7 +76,7 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = accentColor,
-                PointSize = 24.0f * 1.33f, // Converting to px: 24pt * 1.33 = 32px
+                PointSize = (24.0f / 1.33f) - 4, // Converting from px to pt: 24px / 1.33 = 18pt, then -4 = 14pt
                 FontFamily = "Samsung One 600",
                 FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
             };
@@ -81,7 +85,7 @@ namespace TizenNUIApp
             ImageView searchButton = new ImageView()
             {
                 Size2D = new Size2D(32, 32),
-                ResourceUrl = "res/images/home/btn-search0.svg",
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", "btn-search0.svg"),
                 FittingMode = FittingModeType.ScaleToFill
             };
 
@@ -133,7 +137,7 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = isActive ? primaryTextColor : secondaryTextColor,
-                PointSize = 16.0f * 1.33f, // 16pt * 1.33 = 21px
+                PointSize = (16.0f / 1.33f) - 4, // Converting from px to pt: 16px / 1.33 = 12pt, then -4 = 8pt
                 FontFamily = "Samsung One 400",
                 FontStyle = isActive ? new PropertyMap().Add("weight", new PropertyValue("bold")) : new PropertyMap()
             };
@@ -156,71 +160,84 @@ namespace TizenNUIApp
 
         private void CreateRecipeScrollView()
         {
-            recipeScrollView = new ScrollView()
+            // Main container for the recipe section
+            View recipeSection = new View()
             {
                 Size2D = new Size2D(720, 1080),
-                BackgroundColor = backgroundColor
+                BackgroundColor = backgroundColor,
+                Padding = new Extents(20, 20, 20, 20)
+            };
+
+            // Horizontal scroll view for carousel
+            recipeScrollView = new ScrollView()
+            {
+                Size2D = new Size2D(720, 600), // Height for one card plus some padding
+                BackgroundColor = backgroundColor,
+                Position2D = new Position2D(0, 0)
             };
 
             recipeCardsContainer = new View()
             {
                 Layout = new LinearLayout()
                 {
-                    LinearOrientation = LinearLayout.Orientation.Vertical,
-                    CellPadding = new Size2D(0, 20)
+                    LinearOrientation = LinearLayout.Orientation.Horizontal,
+                    CellPadding = new Size2D(20, 0)
                 },
                 Padding = new Extents(20, 20, 20, 20)
             };
 
-            // Create recipe cards
+            // Create recipe cards for carousel
             CreateRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
             CreateRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
             CreateRecipeCard("Chocolate Cake", "2HR", "892", "156", "rectangle0.png");
 
             recipeScrollView.Add(recipeCardsContainer);
-            Add(recipeScrollView);
+            recipeSection.Add(recipeScrollView);
+            Add(recipeSection);
         }
 
         private void CreateRecipeCard(string title, string time, string likes, string comments, string imageName)
         {
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
             View cardView = new View()
             {
-                Size2D = new Size2D(680, 320),
+                Size2D = new Size2D(300, 450), // Smaller width for carousel, taller for content
                 BackgroundColor = cardBackgroundColor,
                 CornerRadius = 16.0f,
-                // BoxShadow = new Shadow(8.0f, new Color(0.0f, 0.0f, 0.0f, 0.1f), new Vector2(0, 4)),
                 Margin = new Extents(0, 0, 10, 10)
             };
 
             // Recipe image
             ImageView recipeImage = new ImageView()
             {
-                Size2D = new Size2D(680, 200),
+                Size2D = new Size2D(300, 180),
                 Position2D = new Position2D(0, 0),
-                ResourceUrl = $"res/images/home/{imageName}",
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", imageName),
                 FittingMode = FittingModeType.ScaleToFill
             };
 
             // Heart button overlay
             ImageView heartButton = new ImageView()
             {
-                Size2D = new Size2D(40, 40),
-                Position2D = new Position2D(620, 20),
-                ResourceUrl = "res/images/home/button-heart0.svg",
+                Size2D = new Size2D(32, 32),
+                Position2D = new Position2D(250, 15),
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", "button-heart0.svg"),
                 FittingMode = FittingModeType.ScaleToFill
             };
 
             // Content area
             View contentView = new View()
             {
-                Size2D = new Size2D(680, 120),
-                Position2D = new Position2D(0, 200),
+                Size2D = new Size2D(300, 270), // Adjusted for smaller card
+                Position2D = new Position2D(0, 180),
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Vertical,
-                    CellPadding = new Size2D(0, 8)
+                    CellPadding = new Size2D(0, 6)
                 },
-                Padding = new Extents(20, 20, 15, 15)
+                Padding = new Extents(15, 15, 15, 15)
             };
 
             // Star rating
@@ -229,24 +246,37 @@ namespace TizenNUIApp
             // Recipe title
             TextLabel titleLabel = new TextLabel(title)
             {
-                Size2D = new Size2D(640, 35),
+                Size2D = new Size2D(270, 30),
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = primaryTextColor,
-                PointSize = 20.0f * 1.33f, // 20pt * 1.33 = 27px
+                PointSize = (20.0f / 1.33f) - 4, // Converting from px to pt: 20px / 1.33 = 15pt, then -4 = 11pt
                 FontFamily = "Samsung One 600",
                 FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
+            };
+
+            // Recipe description
+            string description = GetRecipeDescription(title);
+            TextLabel descriptionLabel = new TextLabel(description)
+            {
+                Size2D = new Size2D(270, 120),
+                HorizontalAlignment = HorizontalAlignment.Begin,
+                VerticalAlignment = VerticalAlignment.Top,
+                TextColor = secondaryTextColor,
+                PointSize = (14.0f / 1.33f) - 4, // Converting from px to pt: 14px / 1.33 = 10.5pt, then -4 = 6.5pt
+                FontFamily = "Samsung One 400",
+                MultiLine = true
             };
 
             // Stats row
             View statsView = new View()
             {
-                Size2D = new Size2D(640, 30),
+                Size2D = new Size2D(270, 30),
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Horizontal,
                     LinearAlignment = LinearLayout.Alignment.Begin,
-                    CellPadding = new Size2D(20, 0)
+                    CellPadding = new Size2D(15, 0)
                 }
             };
 
@@ -263,6 +293,7 @@ namespace TizenNUIApp
 
             contentView.Add(starRatingView);
             contentView.Add(titleLabel);
+            contentView.Add(descriptionLabel);
             contentView.Add(statsView);
 
             cardView.Add(recipeImage);
@@ -272,8 +303,26 @@ namespace TizenNUIApp
             recipeCardsContainer.Add(cardView);
         }
 
+        private string GetRecipeDescription(string title)
+        {
+            switch (title)
+            {
+                case "Prime Rib Roast":
+                    return "The Prime Rib Roast is a classic and tender cut of beef taken from the rib primal cut. Learn how to make the perfect prime rib roast to serve your family and friends. Check out What's Cooking America's award-winning Classic Prime Rib Roast recipe and photo tutorial to help you make the Perfect Prime Rib Roast.";
+                case "Grilled Salmon":
+                    return "Fresh Atlantic salmon grilled to perfection with herbs and lemon. A healthy and delicious meal that's perfect for any occasion.";
+                case "Chocolate Cake":
+                    return "Rich, moist chocolate cake with layers of decadent chocolate frosting. A dessert that will satisfy any chocolate lover's cravings.";
+                default:
+                    return "A delicious recipe that will delight your taste buds and impress your guests.";
+            }
+        }
+
         private View CreateStarRating()
         {
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
             View starContainer = new View()
             {
                 Size2D = new Size2D(100, 20),
@@ -290,7 +339,7 @@ namespace TizenNUIApp
                 ImageView star = new ImageView()
                 {
                     Size2D = new Size2D(16, 16),
-                    ResourceUrl = "res/images/home/star4.svg", // Filled star
+                    ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", "star4.svg"), // Filled star
                     FittingMode = FittingModeType.ScaleToFill
                 };
                 starContainer.Add(star);
@@ -300,7 +349,7 @@ namespace TizenNUIApp
             ImageView emptyStar = new ImageView()
             {
                 Size2D = new Size2D(16, 16),
-                ResourceUrl = "res/images/home/star0.svg", // Empty star
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", "star0.svg"), // Empty star
                 FittingMode = FittingModeType.ScaleToFill
             };
             starContainer.Add(emptyStar);
@@ -310,6 +359,9 @@ namespace TizenNUIApp
 
         private View CreateStatItem(string iconName, string value)
         {
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
             View statView = new View()
             {
                 Size2D = new Size2D(80, 30),
@@ -324,7 +376,7 @@ namespace TizenNUIApp
             ImageView icon = new ImageView()
             {
                 Size2D = new Size2D(16, 16),
-                ResourceUrl = $"res/images/home/{iconName}",
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", iconName),
                 FittingMode = FittingModeType.ScaleToFill
             };
 
@@ -334,7 +386,7 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = secondaryTextColor,
-                PointSize = 12.0f * 1.33f, // 12pt * 1.33 = 16px
+                PointSize = (12.0f / 1.33f) - 4, // Converting from px to pt: 12px / 1.33 = 9pt, then -4 = 5pt
                 FontFamily = "Samsung One 400"
             };
 

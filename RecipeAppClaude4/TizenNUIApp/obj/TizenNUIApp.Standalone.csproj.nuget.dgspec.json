@@ -1,0 +1,93 @@
+{
+  "format": 1,
+  "restore": {
+    "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.Standalone.csproj": {}
+  },
+  "projects": {
+    "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.Standalone.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.Standalone.csproj",
+        "projectName": "TizenNUIApp.Standalone",
+        "projectPath": "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.Standalone.csproj",
+        "packagesPath": "C:\\Users\\suraj.tanwar\\.nuget\\packages\\",
+        "outputPath": "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\NuGet.Config",
+          "C:\\Users\\suraj.tanwar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://tizen.myget.org/F/dotnet/api/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

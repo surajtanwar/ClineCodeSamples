@@ -1,6 +1,7 @@
 using System;
 using Tizen.NUI;
 using Tizen.NUI.BaseComponents;
+using Tizen.Applications;
 
 namespace TizenNUIApp
 {
@@ -22,32 +23,40 @@ namespace TizenNUIApp
             this.BackgroundColor = Color.White;
             this.Position2D = new Position2D(0, 0);
 
-            // Create the background rectangle with gradient effect
-            // Since Tizen NUI doesn't support CSS gradients directly, we'll use the Rectangle.png image
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
+            // Create the coral/pink gradient background
+            // Use the Rectangle.png image which should contain the coral gradient
             ImageView rectangleBackground = new ImageView()
             {
-                ResourceUrl = "res/images/splash/Rectangle.png",
-                Size2D = new Size2D(720, 1280), // Scale to fit 720x1280 from original 375x667
-                Position2D = new Position2D(0, 0)
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Rectangle.png"),
+                Size2D = new Size2D(720, 1280),
+                Position2D = new Position2D(0, 0),
+                WidthResizePolicy = ResizePolicyType.FillToParent,
+                HeightResizePolicy = ResizePolicyType.FillToParent
             };
 
-            // Create the main chef hat icon (Group.png)
-            // Original position: left: 91px, top: 111px (scaled proportionally)
-            // Scale factor: 720/375 = 1.92 for width, 1280/667 = 1.92 for height
+            // Create the main chef hat icon (Group.png) - centered horizontally, positioned in upper portion
+            // Based on the uploaded image, the chef hat should be centered and positioned around 1/3 from top
             ImageView chefHatIcon = new ImageView()
             {
-                ResourceUrl = "res/images/splash/Group.png",
-                Position2D = new Position2D((int)(91 * 1.92), (int)(111 * 1.92)), // Scaled position
-                SizeModeFactor = new Vector3(1.92f, 1.92f, 1.0f) // Scale the image
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group.png"),
+                Position2D = new Position2D(360, 320), // Centered horizontally (720/2), positioned at ~1/4 from top
+                PositionUsesPivotPoint = true,
+                PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
+                ParentOrigin = new Position(0.5f, 0.0f, 0.5f) // Top center parent origin
             };
 
-            // Create the text logo (Group_2.png)
-            // Original position: left: 93px, top: 365px (scaled proportionally)
+            // Create the text logo (Group_2.png) - "Chef Recipes" text
+            // Position it below the chef hat icon, centered
             ImageView textLogo = new ImageView()
             {
-                ResourceUrl = "res/images/splash/Group_2.png",
-                Position2D = new Position2D((int)(93 * 1.92), (int)(365 * 1.92)), // Scaled position
-                SizeModeFactor = new Vector3(1.92f, 1.92f, 1.0f) // Scale the image
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group_2.png"),
+                Position2D = new Position2D(360, 580), // Centered horizontally, positioned below chef hat
+                PositionUsesPivotPoint = true,
+                PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
+                ParentOrigin = new Position(0.5f, 0.0f, 0.5f) // Top center parent origin
             };
 
             // Add all elements to the splash screen

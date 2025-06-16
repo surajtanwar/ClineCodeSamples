@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TizenNUIApp.Standalone")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+129920402b6409823e4808e91768e7b5c9dc9ad8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+614eaa02ac030b4e6d190740cf00f9eae8008cb2")]
 [assembly: System.Reflection.AssemblyProductAttribute("TizenNUIApp.Standalone")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TizenNUIApp.Standalone")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

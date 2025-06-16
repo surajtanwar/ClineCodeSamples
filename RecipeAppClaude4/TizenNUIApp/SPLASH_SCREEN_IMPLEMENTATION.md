@@ -10,6 +10,7 @@ A splash screen has been successfully implemented for the Tizen NUI application 
 - Implements the visual design based on the provided HTML/CSS
 - Uses a 2-second timer to automatically transition to the main application
 - Properly scales the design from original 375x667 to 720x1280 resolution
+- Uses Tizen.Applications API for proper resource path resolution
 - Includes proper resource disposal for memory management
 
 ### 2. Program.cs (Modified)
@@ -23,15 +24,15 @@ A splash screen has been successfully implemented for the Tizen NUI application 
 
 ## Design Implementation
 
-### Resolution Scaling
-- Original design: 375x667 pixels
+### Resolution and Layout
 - Target resolution: 720x1280 pixels
-- Scale factor: 1.92x (720/375 = 1.92, 1280/667 ≈ 1.92)
+- Design matches the uploaded splash screen image with coral/pink gradient background
+- Centered layout with proper element positioning
 
 ### Visual Elements
-1. **Background**: Rectangle.png - Scaled to fill entire 720x1280 screen
-2. **Chef Hat Icon**: Group.png - Positioned at scaled coordinates (175, 213)
-3. **Text Logo**: Group_2.png - Positioned at scaled coordinates (179, 701)
+1. **Background**: Rectangle.png - Coral/pink gradient background filling entire 720x1280 screen
+2. **Chef Hat Icon**: Group.png - White chef hat icon centered horizontally, positioned in upper portion (360, 320)
+3. **Text Logo**: Group_2.png - "Chef Recipes" text in white script font, centered below chef hat (360, 580)
 
 ### Image Resources Used
 - `res/images/splash/Rectangle.png` - Background with gradient effect

@@ -8,6 +8,7 @@ namespace TizenNUIApp
     {
         private Window window;
         private View mainView;
+        private SplashScreen splashScreen;
 
         protected override void OnCreate()
         {
@@ -22,6 +23,34 @@ namespace TizenNUIApp
             window.WindowSize = new Size2D(720, 1280);
             window.BackgroundColor = Color.White;
 
+            // Show splash screen first
+            ShowSplashScreen();
+        }
+
+        void ShowSplashScreen()
+        {
+            // Create and show splash screen
+            splashScreen = new SplashScreen();
+            splashScreen.SplashCompleted += OnSplashCompleted;
+            window.Add(splashScreen);
+        }
+
+        void OnSplashCompleted(object sender, EventArgs e)
+        {
+            // Remove splash screen
+            if (splashScreen != null)
+            {
+                window.Remove(splashScreen);
+                splashScreen.Dispose();
+                splashScreen = null;
+            }
+
+            // Show main application content
+            ShowMainContent();
+        }
+
+        void ShowMainContent()
+        {
             // Create main view
             mainView = new View()
             {
@@ -58,20 +87,20 @@ namespace TizenNUIApp
             };
 
             // Create a button
-            Button actionButton = new Button()
-            {
-                Size2D = new Size2D(200, 60),
-                Text = "Click Me!",
-                BackgroundColor = new Color(0.2f, 0.6f, 1.0f, 1.0f),
-                TextColor = Color.White,
-                CornerRadius = 10.0f
-            };
+            // Button actionButton = new Button()
+            // {
+            //     Size2D = new Size2D(200, 60),
+            //     Text = "Click Me!",
+            //     BackgroundColor = new Color(0.2f, 0.6f, 1.0f, 1.0f),
+            //     TextColor = Color.White,
+            //     CornerRadius = 10.0f
+            // };
 
-            actionButton.Clicked += (sender, e) =>
-            {
-                titleLabel.Text = "Button Clicked!";
-                actionButton.BackgroundColor = new Color(0.2f, 0.8f, 0.2f, 1.0f);
-            };
+            // actionButton.Clicked += (sender, e) =>
+            // {
+            //     titleLabel.Text = "Button Clicked!";
+            //     actionButton.BackgroundColor = new Color(0.2f, 0.8f, 0.2f, 1.0f);
+            // };
 
             // Create a colored rectangle view
             View coloredView = new View()
@@ -85,7 +114,7 @@ namespace TizenNUIApp
             // Add views to main view
             mainView.Add(titleLabel);
             mainView.Add(descriptionLabel);
-            mainView.Add(actionButton);
+            //mainView.Add(actionButton);
             mainView.Add(coloredView);
 
             // Add main view to window

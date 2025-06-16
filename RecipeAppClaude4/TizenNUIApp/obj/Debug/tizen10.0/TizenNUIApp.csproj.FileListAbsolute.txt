@@ -1,0 +1,12 @@
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\TizenNUIApp.deps.json
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\TizenNUIApp.dll
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\bin\Debug\tizen10.0\TizenNUIApp.pdb
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.csproj.AssemblyReference.cache
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.AssemblyInfoInputs.cache
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.AssemblyInfo.cs
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.csproj.CoreCompileInputs.cache
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.sourcelink.json
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\XamlC.stamp
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.dll
+C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\obj\Debug\tizen10.0\TizenNUIApp.pdb

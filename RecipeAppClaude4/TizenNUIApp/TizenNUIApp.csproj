@@ -3,12 +3,28 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>tizen10.0;tizen7.0</TargetFrameworks>
-    <TizenCreateTpkOnBuild>true</TizenCreateTpkOnBuild>
+    <TizenCreateTpkOnBuild>false</TizenCreateTpkOnBuild>
+    <UseAppHost>false</UseAppHost>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TargetFramework)' == 'tizen10.0'">
+    <DefineConstants>TIZEN_10_0</DefineConstants>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TargetFramework)' == 'tizen7.0'">
+    <DefineConstants>TIZEN_7_0</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="res\images\splash\Rectangle.png" />
     <Content Include="res\images\splash\Group.png" />
     <Content Include="res\images\splash\Group_2.png" />
-  </ItemGroup>  
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Program.Standalone.cs" />
+  </ItemGroup>
   <Import Project="TizenNUIApp.Package.targets" />
 </Project>

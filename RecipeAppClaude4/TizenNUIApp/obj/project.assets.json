@@ -1673,14 +1673,15 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.csproj",
+      "projectUniqueName": "C:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.csproj",
       "projectName": "TizenNUIApp",
-      "projectPath": "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.csproj",
+      "projectPath": "C:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.csproj",
       "packagesPath": "C:\\Users\\suraj.tanwar\\.nuget\\packages\\",
-      "outputPath": "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\obj\\",
+      "outputPath": "C:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "configFilePaths": [
+        "C:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\NuGet.Config",
         "C:\\Users\\suraj.tanwar\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
@@ -1688,7 +1689,8 @@
         "tizen7.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://tizen.myget.org/F/dotnet/api/v3/index.json": {}
       },
       "frameworks": {
         "tizen70": {
@@ -1704,6 +1706,9 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreLockProperties": {
+        "restorePackagesWithLockFile": "false"
       },
       "restoreAuditProperties": {
         "enableAudit": "true",

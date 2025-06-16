@@ -8,7 +8,7 @@ namespace TizenNUIApp
     {
         private View headerView;
         private View categoryTabsView;
-        private ScrollableBase recipeScrollView;
+        private ScrollView recipeScrollView;
         private View recipeCardsContainer;
 
         // Colors based on typical recipe app design
@@ -145,9 +145,7 @@ namespace TizenNUIApp
                 {
                     Size2D = new Size2D(60, 3),
                     BackgroundColor = accentColor,
-                    PositionUsesPivotPoint = true,
-                    PivotPoint = PivotPoint.Center,
-                    ParentOrigin = ParentOrigin.Center
+                    Position2D = new Position2D(90, 50)
                 };
                 tabContainer.Add(underline);
             }
@@ -158,12 +156,10 @@ namespace TizenNUIApp
 
         private void CreateRecipeScrollView()
         {
-            recipeScrollView = new ScrollableBase()
+            recipeScrollView = new ScrollView()
             {
                 Size2D = new Size2D(720, 1080),
-                BackgroundColor = backgroundColor,
-                ScrollingDirection = ScrollableBase.Direction.Vertical,
-                HideScrollbar = false
+                BackgroundColor = backgroundColor
             };
 
             recipeCardsContainer = new View()
@@ -192,7 +188,7 @@ namespace TizenNUIApp
                 Size2D = new Size2D(680, 320),
                 BackgroundColor = cardBackgroundColor,
                 CornerRadius = 16.0f,
-                BoxShadow = new Shadow(8.0f, new Color(0.0f, 0.0f, 0.0f, 0.1f), new Vector2(0, 4)),
+                // BoxShadow = new Shadow(8.0f, new Color(0.0f, 0.0f, 0.0f, 0.1f), new Vector2(0, 4)),
                 Margin = new Extents(0, 0, 10, 10)
             };
 
@@ -202,8 +198,7 @@ namespace TizenNUIApp
                 Size2D = new Size2D(680, 200),
                 Position2D = new Position2D(0, 0),
                 ResourceUrl = $"res/images/home/{imageName}",
-                FittingMode = FittingModeType.FillBounds,
-                CornerRadius = new Vector4(16.0f, 16.0f, 0.0f, 0.0f)
+                FittingMode = FittingModeType.ScaleToFill
             };
 
             // Heart button overlay

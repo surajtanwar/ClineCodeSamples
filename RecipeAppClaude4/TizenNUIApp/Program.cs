@@ -41,7 +41,6 @@ namespace TizenNUIApp
             if (splashScreen != null)
             {
                 window.Remove(splashScreen);
-                splashScreen.Dispose();
                 splashScreen = null;
             }
 

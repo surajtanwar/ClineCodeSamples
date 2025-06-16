@@ -1,15 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ChWIhDE1wTg=",
+  "dgSpecHash": "JeaO0O811qo=",
   "success": true,
-  "projectFilePath": "c:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.Standalone.csproj",
+  "projectFilePath": "C:\\GitRepo\\ClineCodeSamples\\RecipeAppClaude4\\TizenNUIApp\\TizenNUIApp.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
-    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512",
-    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
+    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\tizen.net\\10.0.0.17508\\tizen.net.10.0.0.17508.nupkg.sha512",
+    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\tizen.net.api10\\10.0.0.17508\\tizen.net.api10.10.0.0.17508.nupkg.sha512",
+    "C:\\Users\\suraj.tanwar\\.nuget\\packages\\tizen.net.api7\\7.0.0.15162\\tizen.net.api7.7.0.0.15162.nupkg.sha512"
   ],
   "logs": []
 }

@@ -86,14 +86,14 @@ namespace TizenNUIApp
         {
             menuItemsContainer = new View()
             {
-                Size2D = new Size2D(720, 800),
+                Size2D = new Size2D(720, 700),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Vertical,
-                    CellPadding = new Size2D(0, 30)
+                    CellPadding = new Size2D(0, 40)
                 },
-                Padding = new Extents(30, 30, 80, 0)
+                Padding = new Extents(40, 40, 100, 0)
             };
 
             // Create menu items as shown in the image
@@ -148,8 +148,9 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = whiteTextColor,
-                PointSize = (20.0f / 1.33f) - 2, // Converting from px to pt: 20px / 1.33 = 15pt, then -2 = 13pt
-                FontFamily = "Samsung One 400"
+                PointSize = (20.0f / 1.33f) - 4, // Reduced by 2 more: 20px / 1.33 = 15pt, then -4 = 11pt
+                FontFamily = "Samsung One 400",
+                FontStyle = new PropertyMap().Add("weight", new PropertyValue("normal"))
             };
 
             // Add click event handler
@@ -174,34 +175,34 @@ namespace TizenNUIApp
 
             profileSection = new View()
             {
-                Size2D = new Size2D(720, 360),
+                Size2D = new Size2D(720, 460),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Vertical,
                     LinearAlignment = LinearLayout.Alignment.End,
-                    CellPadding = new Size2D(0, 20)
+                    CellPadding = new Size2D(0, 15)
                 },
-                Padding = new Extents(30, 30, 60, 60)
+                Padding = new Extents(40, 40, 80, 80)
             };
 
             // Profile image (circular)
             ImageView profileImage = new ImageView()
             {
-                Size2D = new Size2D(80, 80),
+                Size2D = new Size2D(60, 60),
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "menu", "ellipse0.png"),
                 FittingMode = FittingModeType.ScaleToFill,
-                CornerRadius = 40.0f // Make it circular
+                CornerRadius = 30.0f // Make it circular
             };
 
             // User name
             TextLabel nameLabel = new TextLabel("HARRY TRUMAN")
             {
-                Size2D = new Size2D(660, 40),
+                Size2D = new Size2D(640, 30),
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = whiteTextColor,
-                PointSize = (18.0f / 1.33f) - 2, // Converting from px to pt: 18px / 1.33 = 13.5pt, then -2 = 11.5pt
+                PointSize = (18.0f / 1.33f) - 4, // Reduced by 2 more: 18px / 1.33 = 13.5pt, then -4 = 9.5pt
                 FontFamily = "Samsung One 600",
                 FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
             };

@@ -57,6 +57,7 @@ namespace TizenNUIApp.Views
             ImageView group2Image = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group_2.png"),
+                
                 Position2D = new Position2D((int)(93 * scaleX), (int)(365 * scaleY)), // Scale positions
                 WidthResizePolicy = ResizePolicyType.UseNaturalSize,
                 HeightResizePolicy = ResizePolicyType.UseNaturalSize

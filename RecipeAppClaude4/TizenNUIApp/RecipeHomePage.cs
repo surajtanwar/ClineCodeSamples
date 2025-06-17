@@ -12,9 +12,26 @@ namespace TizenNUIApp
         private ScrollView recipeScrollView;
         private View recipeCardsContainer;
         private View recipeSection;
+        private View recipeDetailsView;
 
         // Event for menu button click
         public event EventHandler MenuButtonClicked;
+
+        // Recipe data structure
+        private class RecipeData
+        {
+            public string Title { get; set; }
+            public string Time { get; set; }
+            public string Likes { get; set; }
+            public string Comments { get; set; }
+            public string ImageName { get; set; }
+            public string Description { get; set; }
+        }
+
+        // Current selected recipe data
+        private RecipeData currentRecipe;
+        private int currentRecipeIndex = 0;
+        private RecipeData[] currentCategoryRecipes;
 
         // Colors based on typical recipe app design
         private readonly Color backgroundColor = new Color(0.98f, 0.98f, 0.98f, 1.0f);
@@ -198,18 +215,74 @@ namespace TizenNUIApp
 
         private void CreateRecipeScrollView()
         {
+            // Initialize recipe data for current category
+            InitializeRecipeData();
+
             // Main container for the recipe section
             View recipeSection = new View()
             {
                 Size2D = new Size2D(720, 1080),
                 BackgroundColor = backgroundColor,
-                Padding = new Extents(0, 0, 0, 0)
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Vertical,
+                    CellPadding = new Size2D(0, 0)
+                }
             };
 
-            // Horizontal scroll view for full-screen cards
+            // Create image carousel at top
+            CreateImageCarousel();
+
+            // Create recipe details section below
+            CreateRecipeDetailsSection();
+
+            recipeSection.Add(recipeScrollView);
+            recipeSection.Add(recipeDetailsView);
+            Add(recipeSection);
+        }
+
+        private void InitializeRecipeData()
+        {
+            // Initialize recipe data based on current category
+            switch (currentCategory)
+            {
+                case "APPETIZERS":
+                    currentCategoryRecipes = new RecipeData[]
+                    {
+                        new RecipeData { Title = "Stuffed Mushrooms", Time = "25MIN", Likes = "342", Comments = "78", ImageName = "appetizer.png", Description = GetRecipeDescription("Stuffed Mushrooms") },
+                        new RecipeData { Title = "Bruschetta", Time = "15MIN", Likes = "289", Comments = "45", ImageName = "maskgroup0.png", Description = GetRecipeDescription("Bruschetta") },
+                        new RecipeData { Title = "Shrimp Cocktail", Time = "20MIN", Likes = "456", Comments = "92", ImageName = "maskgroup1.png", Description = GetRecipeDescription("Shrimp Cocktail") }
+                    };
+                    break;
+                case "ENTREES":
+                    currentCategoryRecipes = new RecipeData[]
+                    {
+                        new RecipeData { Title = "Prime Rib Roast", Time = "5HR", Likes = "685", Comments = "107", ImageName = "maskgroup0.png", Description = GetRecipeDescription("Prime Rib Roast") },
+                        new RecipeData { Title = "Grilled Salmon", Time = "30MIN", Likes = "425", Comments = "89", ImageName = "maskgroup1.png", Description = GetRecipeDescription("Grilled Salmon") },
+                        new RecipeData { Title = "Chicken Parmesan", Time = "45MIN", Likes = "567", Comments = "134", ImageName = "rectangle0.png", Description = GetRecipeDescription("Chicken Parmesan") }
+                    };
+                    break;
+                case "DESSERT":
+                    currentCategoryRecipes = new RecipeData[]
+                    {
+                        new RecipeData { Title = "Chocolate Cake", Time = "2HR", Likes = "892", Comments = "156", ImageName = "dessert.png", Description = GetRecipeDescription("Chocolate Cake") },
+                        new RecipeData { Title = "Tiramisu", Time = "4HR", Likes = "634", Comments = "98", ImageName = "rectangle0.png", Description = GetRecipeDescription("Tiramisu") },
+                        new RecipeData { Title = "Apple Pie", Time = "1HR", Likes = "523", Comments = "87", ImageName = "maskgroup0.png", Description = GetRecipeDescription("Apple Pie") }
+                    };
+                    break;
+            }
+
+            // Set first recipe as current
+            currentRecipeIndex = 0;
+            currentRecipe = currentCategoryRecipes[0];
+        }
+
+        private void CreateImageCarousel()
+        {
+            // Horizontal scroll view for images only
             recipeScrollView = new ScrollView()
             {
-                Size2D = new Size2D(720, 1080),
+                Size2D = new Size2D(720, 400), // Height for images only
                 BackgroundColor = backgroundColor,
                 Position2D = new Position2D(0, 0)
             };
@@ -217,6 +290,8 @@ namespace TizenNUIApp
             // Configure horizontal scrolling
             recipeScrollView.SetAxisAutoLock(true);
             recipeScrollView.SetAxisAutoLockGradient(1.0f);
+
+            // Note: Details will be updated when images are tapped
 
             recipeCardsContainer = new View()
             {
@@ -226,19 +301,132 @@ namespace TizenNUIApp
                     CellPadding = new Size2D(0, 0)
                 },
                 Padding = new Extents(0, 0, 0, 0),
-                // Set a width that accommodates all cards to enable horizontal scrolling
-                Size2D = new Size2D(2160, 1080) // Width for 3 full-screen cards (720 * 3)
+                Size2D = new Size2D(2160, 400) // Width for 3 images (720 * 3)
             };
 
-            // Create full-screen recipe cards
-            CreateFullScreenRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
-            CreateFullScreenRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
-            CreateFullScreenRecipeCard("Chocolate Cake", "2HR", "892", "156", "rectangle0.png");
+            // Create image cards only
+            foreach (var recipe in currentCategoryRecipes)
+            {
+                CreateImageCard(recipe);
+            }
 
             recipeScrollView.Add(recipeCardsContainer);
-            recipeSection.Add(recipeScrollView);
-            Add(recipeSection);
         }
+
+        private void CreateImageCard(RecipeData recipe)
+        {
+            // Get the application resource directory path
+            string resourcePath = Application.Current.DirectoryInfo.Resource;
+
+            View imageCard = new View()
+            {
+                Size2D = new Size2D(720, 400), // Full width, image height only
+                BackgroundColor = cardBackgroundColor
+            };
+
+            // Recipe image
+            ImageView recipeImage = new ImageView()
+            {
+                Size2D = new Size2D(720, 400),
+                Position2D = new Position2D(0, 0),
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", recipe.ImageName),
+                FittingMode = FittingModeType.ScaleToFill
+            };
+
+            // Heart button overlay
+            ImageView heartButton = new ImageView()
+            {
+                Size2D = new Size2D(40, 40),
+                Position2D = new Position2D(650, 30),
+                ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "home", "button-heart0.svg"),
+                FittingMode = FittingModeType.ScaleToFill
+            };
+
+            imageCard.Add(recipeImage);
+            imageCard.Add(heartButton);
+            recipeCardsContainer.Add(imageCard);
+        }
+
+        private void CreateRecipeDetailsSection()
+        {
+            recipeDetailsView = new View()
+            {
+                Size2D = new Size2D(720, 680), // Remaining space for details
+                BackgroundColor = cardBackgroundColor,
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Vertical,
+                    CellPadding = new Size2D(0, 20)
+                },
+                Padding = new Extents(30, 30, 30, 30)
+            };
+
+            UpdateRecipeDetails();
+        }
+
+        private void UpdateRecipeDetails()
+        {
+            // Clear existing details
+            while (recipeDetailsView.ChildCount > 0)
+            {
+                View child = recipeDetailsView.GetChildAt(0);
+                recipeDetailsView.Remove(child);
+                child?.Dispose();
+            }
+
+            // Star rating
+            View starRatingView = CreateStarRating();
+
+            // Recipe title
+            TextLabel titleLabel = new TextLabel(currentRecipe.Title)
+            {
+                Size2D = new Size2D(660, 50),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextColor = primaryTextColor,
+                PointSize = (28.0f / 1.33f) - 4,
+                FontFamily = "Samsung One 600",
+                FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
+            };
+
+            // Stats row
+            View statsView = new View()
+            {
+                Size2D = new Size2D(660, 50),
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Horizontal,
+                    LinearAlignment = LinearLayout.Alignment.Center,
+                    CellPadding = new Size2D(40, 0)
+                }
+            };
+
+            View timeView = CreateLargeStatItem("icons0.svg", currentRecipe.Time);
+            View likesView = CreateLargeStatItem("icons1.svg", currentRecipe.Likes);
+            View commentsView = CreateLargeStatItem("icons2.svg", currentRecipe.Comments);
+
+            statsView.Add(timeView);
+            statsView.Add(likesView);
+            statsView.Add(commentsView);
+
+            // Recipe description
+            TextLabel descriptionLabel = new TextLabel(currentRecipe.Description)
+            {
+                Size2D = new Size2D(660, 400),
+                HorizontalAlignment = HorizontalAlignment.Begin,
+                VerticalAlignment = VerticalAlignment.Top,
+                TextColor = secondaryTextColor,
+                PointSize = (16.0f / 1.33f) - 2,
+                FontFamily = "Samsung One 400",
+                MultiLine = true
+            };
+
+            recipeDetailsView.Add(starRatingView);
+            recipeDetailsView.Add(titleLabel);
+            recipeDetailsView.Add(statsView);
+            recipeDetailsView.Add(descriptionLabel);
+        }
+
 
         private void CreateFullScreenRecipeCard(string title, string time, string likes, string comments, string imageName)
         {
@@ -660,7 +848,10 @@ namespace TizenNUIApp
 
         private void RefreshRecipeCards()
         {
-            // Clear existing cards
+            // Initialize recipe data for new category
+            InitializeRecipeData();
+
+            // Clear existing image cards
             while (recipeCardsContainer.ChildCount > 0)
             {
                 View child = recipeCardsContainer.GetChildAt(0);
@@ -668,29 +859,20 @@ namespace TizenNUIApp
                 child?.Dispose();
             }
 
-            // Add new full-screen cards based on category
-            switch (currentCategory)
+            // Create new image cards for the category
+            foreach (var recipe in currentCategoryRecipes)
             {
-                case "APPETIZERS":
-                    CreateFullScreenRecipeCard("Stuffed Mushrooms", "25MIN", "342", "78", "appetizer.png");
-                    CreateFullScreenRecipeCard("Bruschetta", "15MIN", "289", "45", "maskgroup0.png");
-                    CreateFullScreenRecipeCard("Shrimp Cocktail", "20MIN", "456", "92", "maskgroup1.png");
-                    break;
-                case "ENTREES":
-                    CreateFullScreenRecipeCard("Prime Rib Roast", "5HR", "685", "107", "maskgroup0.png");
-                    CreateFullScreenRecipeCard("Grilled Salmon", "30MIN", "425", "89", "maskgroup1.png");
-                    CreateFullScreenRecipeCard("Chicken Parmesan", "45MIN", "567", "134", "rectangle0.png");
-                    break;
-                case "DESSERT":
-                    CreateFullScreenRecipeCard("Chocolate Cake", "2HR", "892", "156", "dessert.png");
-                    CreateFullScreenRecipeCard("Tiramisu", "4HR", "634", "98", "rectangle0.png");
-                    CreateFullScreenRecipeCard("Apple Pie", "1HR", "523", "87", "maskgroup0.png");
-                    break;
+                CreateImageCard(recipe);
             }
 
-            // Ensure container width accommodates all full-screen cards for horizontal scrolling
-            // Each card is 720px wide, so 3 cards = 2160px
-            recipeCardsContainer.Size2D = new Size2D(2160, 1080);
+            // Update container width for new number of cards
+            recipeCardsContainer.Size2D = new Size2D(720 * currentCategoryRecipes.Length, 400);
+
+            // Update recipe details to show first recipe of new category
+            UpdateRecipeDetails();
+
+            // Reset scroll position to first image
+            recipeScrollView.ScrollTo(new Vector2(0, 0), 0.0f);
         }
     }
 }

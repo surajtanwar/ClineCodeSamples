@@ -1,6 +1,6 @@
 is_global = true
 build_property.RootNamespace = TizenNUIApp
-build_property.ProjectDir = c:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\
+build_property.ProjectDir = C:\GitRepo\ClineCodeSamples\RecipeAppClaude4\TizenNUIApp\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

@@ -136,15 +136,15 @@
     </Reference>
     <Reference URI="bin%2FTizenNUIApp.pdb">
       <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" />
-      <DigestValue>b9S2FjXWSN0A16zVVj9NFtDr+LlfBLBEGwDKbB1rGqFS/UNFnTkCiUL9vHyVJYSUVVSiqO6r1ii6TxJRX2SfCQ==</DigestValue>
+      <DigestValue>obHbXfcXWR2Pkk56/K8yX46P8Oxq1YXxrvhRNsMVib34gfLwcD+CnDFZFrJcjVMeybnZBjNoOL36X5B8eS/udA==</DigestValue>
     </Reference>
     <Reference URI="bin%2FTizenNUIApp.dll">
       <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" />
-      <DigestValue>pCq29YKWxvod6h7+Bro2H+Wr2kQ6Hp068bK37oJ3TQyN7x55hB9dkLFqDsoampBispgYpIxiBqYyJVd8e407+Q==</DigestValue>
+      <DigestValue>wVigGEm9k9MKcXVPnHEKB4EHch0LXXRgESGX6ol1wtsG5fe6JqG8GLsqW6qEMuM5svzn1ITl2JZc/WtBdgtUPw==</DigestValue>
     </Reference>
     <Reference URI="author-signature.xml">
       <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" />
-      <DigestValue>cuLH5sDQuv13ALg9mF6d3nvGMn+btnI+RqLUFaubAonixEaf+fq4AycTqay67/IXiWxLRn5hT4SMLeECqmwZlw==</DigestValue>
+      <DigestValue>sUBFObOcZBJ7MuNWYDtKR+cSk6zDw8QLJnj6oGIycuJC7eyEfnaRyf7o9gl7ppFOm1wK1+5JeeLXvGOU+YL2gw==</DigestValue>
     </Reference>
     <Reference URI="#prop">
       <Transforms>
@@ -155,9 +155,9 @@
     </Reference>
   </SignedInfo>
   <SignatureValue>
-ls2FoyIuL385gthv/vBGqPIiCoJ50GLwJqh8zBBZ6tWDUOeKZ97TGFyxhwtkH4p49et2TEnBPhL5
-i6gqtUds1racv03peRonNsPqXh6wbLuRnmBEyJONT5S9VTVxEOPzA1dGqWg63JCInfjmbSRgcBuK
-ubyXBiXfV7azI5wE+P8=
+IHTSAbp4IZGfFO2yQ4YXOmzwe55XuI3PQmzp3yjugAl8xAPAqn6XLWkcVXFQofu0Og9+sz3qC1dc
+IdgzI3pN3+7aw3EGx269qGt/c3HiD0M/OvrPQoONg71OC/KWuVzBGH+WXIr36R+hTKWRFGYRWTJG
+kaA/AePYs65Dpq25kRk=
 </SignatureValue>
   <KeyInfo>
     <X509Data>

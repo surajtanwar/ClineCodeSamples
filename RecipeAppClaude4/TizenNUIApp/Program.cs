@@ -1,17 +1,25 @@
 using System;
 using Tizen.NUI;
 using Tizen.NUI.BaseComponents;
+using TizenNUIApp.Controllers;
+using TizenNUIApp.Views;
+using TizenNUIApp.Navigation;
 
 namespace TizenNUIApp
 {
     class Program : NUIApplication
     {
         private Window window;
-        private View mainView;
-        private SplashScreen splashScreen;
-        private RecipeHomePage recipeHomePage;
-        private MenuPage menuPage;
-        private View currentPage;
+        private NavigationManager navigationManager;
+        
+        // Controllers
+        private RecipeController recipeController;
+        private MenuController menuController;
+        
+        // Views
+        private SplashScreenView splashScreenView;
+        private RecipeHomePageView recipeHomePageView;
+        private MenuPageView menuPageView;
 
         protected override void OnCreate()
         {
@@ -26,98 +34,123 @@ namespace TizenNUIApp
             window.WindowSize = new Size2D(720, 1280);
             window.BackgroundColor = Color.White;
 
+            // Initialize controllers
+            recipeController = new RecipeController();
+            menuController = new MenuController();
+
+            // Initialize navigation manager
+            navigationManager = new NavigationManager(window);
+            navigationManager.NavigationRequested += OnNavigationRequested;
+
             // Show splash screen first
             ShowSplashScreen();
         }
 
         void ShowSplashScreen()
         {
-            // Create and show splash screen
-            splashScreen = new SplashScreen();
-            splashScreen.SplashCompleted += OnSplashCompleted;
-            window.Add(splashScreen);
+            splashScreenView = new SplashScreenView();
+            splashScreenView.SplashCompleted += OnSplashCompleted;
+            navigationManager.ShowPage(splashScreenView, PageType.Splash);
         }
 
         void OnSplashCompleted(object sender, EventArgs e)
         {
-            // Remove splash screen
-            if (splashScreen != null)
+            // Navigate to home page
+            navigationManager.NavigateTo(PageType.Home, addToStack: false);
+        }
+
+        void OnNavigationRequested(object sender, NavigationEventArgs e)
+        {
+            switch (e.PageType)
             {
-                window.Remove(splashScreen);
-                splashScreen = null;
+                case PageType.Splash:
+                    ShowSplashScreen();
+                    break;
+                case PageType.Home:
+                    ShowHomePage();
+                    break;
+                case PageType.Menu:
+                    ShowMenuPage();
+                    break;
+                case PageType.SavedRecipes:
+                case PageType.ShoppingList:
+                case PageType.Settings:
+                case PageType.Profile:
+                    // For now, navigate back to home page
+                    // In a real app, you would implement these pages
+                    navigationManager.NavigateTo(PageType.Home, addToStack: false);
+                    break;
             }
-
-            // Show main application content
-            ShowMainContent();
         }
 
-        void ShowMainContent()
+        void ShowHomePage()
         {
-            // Create and show the Recipe Home Page
-            recipeHomePage = new RecipeHomePage();
-            recipeHomePage.MenuButtonClicked += OnMenuButtonClicked;
-            currentPage = recipeHomePage;
-            window.Add(recipeHomePage);
-        }
-
-        void OnMenuButtonClicked(object sender, EventArgs e)
-        {
-            ShowMenuPage();
+            if (recipeHomePageView == null)
+            {
+                recipeHomePageView = new RecipeHomePageView(recipeController);
+                recipeHomePageView.MenuButtonClicked += OnMenuButtonClicked;
+                recipeHomePageView.CategoryChanged += OnCategoryChanged;
+            }
+            
+            navigationManager.ShowPage(recipeHomePageView, PageType.Home);
         }
 
         void ShowMenuPage()
         {
-            // Remove current page
-            if (currentPage != null)
+            if (menuPageView == null)
             {
-                window.Remove(currentPage);
-            }
-
-            // Create and show menu page
-            if (menuPage == null)
-            {
-                menuPage = new MenuPage();
-                menuPage.MenuItemSelected += OnMenuItemSelected;
+                menuPageView = new MenuPageView(menuController);
+                menuPageView.MenuItemSelected += OnMenuItemSelected;
+                menuPageView.BackButtonClicked += OnMenuBackButtonClicked;
             }
             
-            currentPage = menuPage;
-            window.Add(menuPage);
+            navigationManager.ShowPage(menuPageView, PageType.Menu);
         }
 
-        void OnMenuItemSelected(object sender, MenuItemSelectedEventArgs e)
+        void OnMenuButtonClicked(object sender, EventArgs e)
         {
-            switch (e.MenuItem)
+            navigationManager.NavigateTo(PageType.Menu);
+        }
+
+        void OnCategoryChanged(object sender, string category)
+        {
+            if (recipeHomePageView != null)
             {
-                case "back":
-                    ShowRecipeHomePage();
-                    break;
+                recipeHomePageView.UpdateCategory(category);
+            }
+        }
+
+        void OnMenuItemSelected(object sender, string menuItem)
+        {
+            switch (menuItem)
+            {
                 case "popular_recipes":
-                    // Navigate back to home page since it shows popular recipes
-                    ShowRecipeHomePage();
+                    navigationManager.NavigateTo(PageType.Home, addToStack: false);
                     break;
                 case "saved_recipes":
+                    navigationManager.NavigateTo(PageType.SavedRecipes);
+                    break;
                 case "shopping_list":
+                    navigationManager.NavigateTo(PageType.ShoppingList);
+                    break;
                 case "settings":
+                    navigationManager.NavigateTo(PageType.Settings);
+                    break;
                 case "profile":
-                    // Handle other menu items - for now just show a placeholder
-                    // In a real app, you would navigate to the appropriate page
-                    // For now, just go back to home page
-                    ShowRecipeHomePage();
+                    navigationManager.NavigateTo(PageType.Profile);
                     break;
             }
         }
 
-        void ShowRecipeHomePage()
+        void OnMenuBackButtonClicked(object sender, EventArgs e)
         {
-            // Remove current page
-            if (currentPage != null)
-            {
-                window.Remove(currentPage);
-            }
+            navigationManager.NavigateBack();
+        }
 
-            // Show recipe home page
-            currentPage = recipeHomePage;
-            window.Add(recipeHomePage);
+        protected override void OnTerminate()
+        {
+            navigationManager?.Dispose();
+            base.OnTerminate();
         }
 
         static void Main(string[] args)

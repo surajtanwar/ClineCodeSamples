@@ -44,8 +44,8 @@ namespace TizenNUIApp
 
         private void CreateLayout()
         {
-            CreateWhiteArea();
             CreateRedArea();
+            CreateWhiteArea();
         }
 
         private void CreateWhiteArea()

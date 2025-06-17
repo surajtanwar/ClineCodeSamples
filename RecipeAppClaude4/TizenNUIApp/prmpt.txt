@@ -1,0 +1,93 @@
+Create a menu page same as shown in uploaded image menu.png, this page should fit in 720x1280 resolution. The font size should be maintain as shown in image.For px to point conversion, use 1point = 1.33 px.
+This page should be launched by clicking on the menu icon in MainView page
+Following html and css code can be referred to created this page in tizen NUI.
+html reference:
+<div class="menu">
+  <div class="rectangle"></div>
+  <img class="btn-menu" src="btn-menu0.svg" />
+  <div class="popular-recipes-saved-recipes-shopping-list-settings">
+    Popular recipes
+    <br />
+    saved recipes
+    <br />
+    shopping list
+    <br />
+    settings
+  </div>
+  <div class="harry-truman">harry truman</div>
+  <img class="ellipse" src="ellipse0.png" />
+  <div class="line"></div>
+</div>
+
+CSS reference:
+.menu,
+.menu * {
+  box-sizing: border-box;
+}
+.menu {
+  background: #ffffff;
+  height: 667px;
+  position: relative;
+  overflow: hidden;
+}
+.rectangle {
+  background: #eb5757;
+  width: 320px;
+  height: 667px;
+  position: absolute;
+  left: -1px;
+  top: 0px;
+}
+.btn-menu {
+  width: 24px;
+  height: 18px;
+  position: absolute;
+  left: 340px;
+  top: 10px;
+  overflow: visible;
+}
+.popular-recipes-saved-recipes-shopping-list-settings {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Roboto-Medium", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  position: absolute;
+  left: 30px;
+  top: 71px;
+}
+.harry-truman {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Roboto-Medium", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  position: absolute;
+  left: 30px;
+  top: 616px;
+}
+.ellipse {
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  position: absolute;
+  left: 29px;
+  top: 552px;
+  object-fit: cover;
+}
+.line {
+  margin-top: -5px;
+  border-style: solid;
+  border-color: #ffffff;
+  border-width: 5px 0 0 0;
+  width: 30px;
+  height: 0px;
+  position: absolute;
+  left: 16px;
+  top: 68px;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+}
+for image resources please refer res/images/menu folder

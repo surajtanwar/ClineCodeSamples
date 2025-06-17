@@ -380,11 +380,11 @@ namespace TizenNUIApp
             // Recipe title
             TextLabel titleLabel = new TextLabel(currentRecipe.Title)
             {
-                Size2D = new Size2D(660, 60),
+                Size2D = new Size2D(660, 80),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = primaryTextColor,
-                PointSize = 20.0f, // Increased font size for better visibility
+                PointSize = 20.0f-4, // Increased font size for better visibility
                 FontFamily = "Samsung One 600",
                 FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
             };
@@ -564,7 +564,7 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = secondaryTextColor,
-                PointSize = 12.0f, // Improved font size for better readability
+                PointSize = 12.0f-4, // Improved font size for better readability
                 FontFamily = "Samsung One 400"
             };
 
@@ -721,10 +721,11 @@ namespace TizenNUIApp
 
             View starContainer = new View()
             {
-                Size2D = new Size2D(100, 20),
+                Size2D = new Size2D(660, 30), // Full width to center properly
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Horizontal,
+                    LinearAlignment = LinearLayout.Alignment.Center, // Center the stars
                     CellPadding = new Size2D(2, 0)
                 }
             };

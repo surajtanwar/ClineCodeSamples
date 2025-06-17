@@ -42,7 +42,7 @@ namespace TizenNUIApp
         private readonly Color cardBackgroundColor = Color.White;
 
         // Current active category
-        private string currentCategory = "APPETIZERS";
+        private string currentCategory = "ENTREES";
 
         // Tab references for dynamic updates
         private View appetizersTab;
@@ -152,8 +152,8 @@ namespace TizenNUIApp
             };
 
             // Create category tabs and store references
-            appetizersTab = CreateCategoryTab("APPETIZERS", true);
-            entreesTab = CreateCategoryTab("ENTREES", false);
+            appetizersTab = CreateCategoryTab("APPETIZERS", false);
+            entreesTab = CreateCategoryTab("ENTREES", true);
             dessertTab = CreateCategoryTab("DESSERT", false);
 
             Add(categoryTabsView);
@@ -380,11 +380,11 @@ namespace TizenNUIApp
             // Recipe title
             TextLabel titleLabel = new TextLabel(currentRecipe.Title)
             {
-                Size2D = new Size2D(660, 50),
+                Size2D = new Size2D(660, 60),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = primaryTextColor,
-                PointSize = (28.0f / 1.33f) - 4,
+                PointSize = 20.0f, // Increased font size for better visibility
                 FontFamily = "Samsung One 600",
                 FontStyle = new PropertyMap().Add("weight", new PropertyValue("bold"))
             };
@@ -416,7 +416,7 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Top,
                 TextColor = secondaryTextColor,
-                PointSize = (16.0f / 1.33f) - 2,
+                PointSize = 14.0f, // Improved font size for better readability
                 FontFamily = "Samsung One 400",
                 MultiLine = true
             };
@@ -564,7 +564,7 @@ namespace TizenNUIApp
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = secondaryTextColor,
-                PointSize = (16.0f / 1.33f) - 2, // Larger text
+                PointSize = 12.0f, // Improved font size for better readability
                 FontFamily = "Samsung One 400"
             };
 

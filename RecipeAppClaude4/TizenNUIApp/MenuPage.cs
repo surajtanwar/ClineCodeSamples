@@ -10,11 +10,18 @@ namespace TizenNUIApp
         private View headerView;
         private View menuItemsContainer;
         private View profileSection;
+        private View redAreaContainer;
 
         // Colors matching the design
         private readonly Color menuBackgroundColor = new Color(0.95f, 0.4f, 0.4f, 1.0f); // Coral/salmon color
         private readonly Color whiteTextColor = Color.White;
         private readonly Color indicatorColor = Color.White;
+        private readonly Color whiteBackgroundColor = Color.White;
+
+        // Layout dimensions
+        private readonly int totalWidth = 720; // Full window width
+        private readonly int redAreaWidth = 576; // 80% of 720
+        private readonly int whiteAreaWidth = 144; // 20% of 720
 
         // Event for navigation
         public event EventHandler<MenuItemSelectedEventArgs> MenuItemSelected;
@@ -27,39 +34,39 @@ namespace TizenNUIApp
 
         private void InitializeComponent()
         {
-            Size2D = new Size2D(650, 1280); // Reduced width to ~90% (720 * 0.9 = 648, rounded to 650)
-            BackgroundColor = menuBackgroundColor;
+            Size2D = new Size2D(totalWidth, 1280);
+            BackgroundColor = whiteBackgroundColor; // White background for the entire page
             Layout = new LinearLayout()
             {
-                LinearOrientation = LinearLayout.Orientation.Vertical
+                LinearOrientation = LinearLayout.Orientation.Horizontal
             };
         }
 
         private void CreateLayout()
         {
-            CreateHeader();
-            CreateMenuItems();
-            CreateProfileSection();
+            CreateWhiteArea();
+            CreateRedArea();
         }
 
-        private void CreateHeader()
+        private void CreateWhiteArea()
         {
             // Get the application resource directory path
             string resourcePath = Application.Current.DirectoryInfo.Resource;
 
-            headerView = new View()
+            // White area container (20% width) - contains the menu icon
+            View whiteArea = new View()
             {
-                Size2D = new Size2D(650, 120),
-                BackgroundColor = menuBackgroundColor,
+                Size2D = new Size2D(whiteAreaWidth, 1280),
+                BackgroundColor = whiteBackgroundColor,
                 Layout = new LinearLayout()
                 {
-                    LinearOrientation = LinearLayout.Orientation.Horizontal,
-                    LinearAlignment = LinearLayout.Alignment.End
+                    LinearOrientation = LinearLayout.Orientation.Vertical,
+                    LinearAlignment = LinearLayout.Alignment.Begin
                 },
                 Padding = new Extents(20, 20, 40, 20)
             };
 
-            // Hamburger menu button (close menu)
+            // Hamburger menu button (close menu) - now in white area
             ImageView menuButton = new ImageView()
             {
                 Size2D = new Size2D(32, 32),
@@ -78,15 +85,34 @@ namespace TizenNUIApp
                 return false;
             };
 
-            headerView.Add(menuButton);
-            Add(headerView);
+            whiteArea.Add(menuButton);
+            Add(whiteArea);
+        }
+
+        private void CreateRedArea()
+        {
+            // Red area container (80% width) - contains menu items and profile
+            redAreaContainer = new View()
+            {
+                Size2D = new Size2D(redAreaWidth, 1280),
+                BackgroundColor = menuBackgroundColor,
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Vertical
+                }
+            };
+
+            CreateMenuItems();
+            CreateProfileSection();
+
+            Add(redAreaContainer);
         }
 
         private void CreateMenuItems()
         {
             menuItemsContainer = new View()
             {
-                Size2D = new Size2D(650, 700),
+                Size2D = new Size2D(redAreaWidth, 700),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
@@ -102,14 +128,14 @@ namespace TizenNUIApp
             CreateMenuItem("SHOPPING LIST", false);
             CreateMenuItem("SETTINGS", false);
 
-            Add(menuItemsContainer);
+            redAreaContainer.Add(menuItemsContainer);
         }
 
         private void CreateMenuItem(string itemText, bool hasIndicator)
         {
             View menuItemView = new View()
             {
-                Size2D = new Size2D(590, 60),
+                Size2D = new Size2D(redAreaWidth - 80, 60), // Adjust width for red area minus padding
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
@@ -144,7 +170,7 @@ namespace TizenNUIApp
             // Menu item text
             TextLabel itemLabel = new TextLabel(itemText)
             {
-                Size2D = new Size2D(530, 60),
+                Size2D = new Size2D(redAreaWidth - 150, 60), // Adjust width for red area
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = whiteTextColor,
@@ -175,15 +201,28 @@ namespace TizenNUIApp
 
             profileSection = new View()
             {
-                Size2D = new Size2D(650, 460),
+                Size2D = new Size2D(redAreaWidth, 460),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
                     LinearOrientation = LinearLayout.Orientation.Vertical,
                     LinearAlignment = LinearLayout.Alignment.End,
-                    CellPadding = new Size2D(0, 15)
+                    CellPadding = new Size2D(0, 10)
                 },
                 Padding = new Extents(40, 40, 80, 80)
+            };
+
+            // Profile container with horizontal layout for image and name
+            View profileContainer = new View()
+            {
+                Size2D = new Size2D(redAreaWidth - 160, 80),
+                BackgroundColor = menuBackgroundColor,
+                Layout = new LinearLayout()
+                {
+                    LinearOrientation = LinearLayout.Orientation.Horizontal,
+                    LinearAlignment = LinearLayout.Alignment.Begin,
+                    CellPadding = new Size2D(15, 0)
+                }
             };
 
             // Profile image (circular)
@@ -198,7 +237,7 @@ namespace TizenNUIApp
             // User name
             TextLabel nameLabel = new TextLabel("HARRY TRUMAN")
             {
-                Size2D = new Size2D(570, 30),
+                Size2D = new Size2D(redAreaWidth - 250, 60), // Adjust width for red area and image
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = whiteTextColor,
@@ -208,7 +247,7 @@ namespace TizenNUIApp
             };
 
             // Add click event for profile section
-            profileSection.TouchEvent += (sender, e) =>
+            profileContainer.TouchEvent += (sender, e) =>
             {
                 if (e.Touch.GetState(0) == PointStateType.Up)
                 {
@@ -218,9 +257,10 @@ namespace TizenNUIApp
                 return false;
             };
 
-            profileSection.Add(profileImage);
-            profileSection.Add(nameLabel);
-            Add(profileSection);
+            profileContainer.Add(profileImage);
+            profileContainer.Add(nameLabel);
+            profileSection.Add(profileContainer);
+            redAreaContainer.Add(profileSection);
         }
 
         private void OnMenuItemSelected(string menuItem)

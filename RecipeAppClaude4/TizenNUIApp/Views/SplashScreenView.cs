@@ -27,45 +27,45 @@ namespace TizenNUIApp.Views
             // Get the application resource directory path
             string resourcePath = Application.Current.DirectoryInfo.Resource;
 
-            // Create the coral/pink gradient background
-            // Use the Rectangle.png image which should contain the coral gradient
+            // Calculate scaling factors from CSS design (375x667) to target resolution (720x1280)
+            float scaleX = 720f / 375f; // 1.92
+            float scaleY = 1280f / 667f; // 1.92
+
+            // Create the background rectangle with coral gradient
+            // Based on CSS: width: 375px, height: 667px, positioned at (0,0)
             ImageView rectangleBackground = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Rectangle.png"),
-                Size2D = new Size2D(720, 1280),
+                Size2D = new Size2D((int)(375 * scaleX), (int)(667 * scaleY)), // Scale to fit 720x1280
                 Position2D = new Position2D(0, 0),
-                WidthResizePolicy = ResizePolicyType.FillToParent,
-                HeightResizePolicy = ResizePolicyType.FillToParent
+                WidthResizePolicy = ResizePolicyType.Fixed,
+                HeightResizePolicy = ResizePolicyType.Fixed
             };
 
-            // Create the main chef hat icon (Group.png) - properly centered
-            // Based on the reference image, position it in the upper-center area
-            ImageView chefHatIcon = new ImageView()
+            // Create the main group image (Group.png)
+            // Based on CSS: positioned at left: 91px, top: 111px
+            ImageView groupImage = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group.png"),
-                Size2D = new Size2D(180, 180), // Adjusted size for better proportion
-                Position2D = new Position2D(270, 350), // Centered horizontally (720/2 - 180/2 = 270), positioned higher
-                PositionUsesPivotPoint = true,
-                PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
-                ParentOrigin = new Position(0.5f, 0.5f, 0.5f) // Center parent origin
+                Position2D = new Position2D((int)(91 * scaleX), (int)(111 * scaleY)), // Scale positions
+                WidthResizePolicy = ResizePolicyType.UseNaturalSize,
+                HeightResizePolicy = ResizePolicyType.UseNaturalSize
             };
 
-            // Create the text logo (Group_2.png) - "Chef Recipes" text, properly centered
-            // Position it closer below the chef hat icon, as shown in reference image
-            ImageView textLogo = new ImageView()
+            // Create the second group image (Group_2.png)
+            // Based on CSS: positioned at left: 93px, top: 365px
+            ImageView group2Image = new ImageView()
             {
                 ResourceUrl = System.IO.Path.Combine(resourcePath, "images", "splash", "Group_2.png"),
-                Size2D = new Size2D(280, 100), // Adjusted size for better proportion
-                Position2D = new Position2D(220, 580), // Centered horizontally (720/2 - 280/2 = 220), positioned closer to chef hat
-                PositionUsesPivotPoint = true,
-                PivotPoint = new Position(0.5f, 0.5f, 0.5f), // Center pivot point
-                ParentOrigin = new Position(0.5f, 0.5f, 0.5f) // Center parent origin
+                Position2D = new Position2D((int)(93 * scaleX), (int)(365 * scaleY)), // Scale positions
+                WidthResizePolicy = ResizePolicyType.UseNaturalSize,
+                HeightResizePolicy = ResizePolicyType.UseNaturalSize
             };
 
-            // Add all elements to the splash screen
+            // Add all elements to the splash screen in the correct order
             this.Add(rectangleBackground);
-            this.Add(chefHatIcon);
-            this.Add(textLogo);
+            this.Add(groupImage);
+            this.Add(group2Image);
         }
 
         private void StartSplashTimer()

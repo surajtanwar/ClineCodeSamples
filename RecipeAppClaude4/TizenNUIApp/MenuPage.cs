@@ -27,7 +27,7 @@ namespace TizenNUIApp
 
         private void InitializeComponent()
         {
-            Size2D = new Size2D(720, 1280);
+            Size2D = new Size2D(650, 1280); // Reduced width to ~90% (720 * 0.9 = 648, rounded to 650)
             BackgroundColor = menuBackgroundColor;
             Layout = new LinearLayout()
             {
@@ -49,7 +49,7 @@ namespace TizenNUIApp
 
             headerView = new View()
             {
-                Size2D = new Size2D(720, 120),
+                Size2D = new Size2D(650, 120),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
@@ -86,7 +86,7 @@ namespace TizenNUIApp
         {
             menuItemsContainer = new View()
             {
-                Size2D = new Size2D(720, 700),
+                Size2D = new Size2D(650, 700),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
@@ -109,7 +109,7 @@ namespace TizenNUIApp
         {
             View menuItemView = new View()
             {
-                Size2D = new Size2D(660, 60),
+                Size2D = new Size2D(590, 60),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
@@ -144,7 +144,7 @@ namespace TizenNUIApp
             // Menu item text
             TextLabel itemLabel = new TextLabel(itemText)
             {
-                Size2D = new Size2D(600, 60),
+                Size2D = new Size2D(530, 60),
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = whiteTextColor,
@@ -175,7 +175,7 @@ namespace TizenNUIApp
 
             profileSection = new View()
             {
-                Size2D = new Size2D(720, 460),
+                Size2D = new Size2D(650, 460),
                 BackgroundColor = menuBackgroundColor,
                 Layout = new LinearLayout()
                 {
@@ -198,7 +198,7 @@ namespace TizenNUIApp
             // User name
             TextLabel nameLabel = new TextLabel("HARRY TRUMAN")
             {
-                Size2D = new Size2D(640, 30),
+                Size2D = new Size2D(570, 30),
                 HorizontalAlignment = HorizontalAlignment.Begin,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextColor = whiteTextColor,

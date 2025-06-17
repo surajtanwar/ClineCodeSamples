@@ -136,11 +136,11 @@
     </Reference>
     <Reference URI="bin%2FTizenNUIApp.pdb">
       <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" />
-      <DigestValue>3wiVq4WiKUnWxZlvBSDDr1zJQA5SbnNzgkEErogYk4FooV2yMC7/qFKzE76TboSwSckraRb6WInF1i63UdXnyg==</DigestValue>
+      <DigestValue>lMqpHiOOcmgu1MbuHKn/AAPQemJ51/XRxPNx/W9yKa0neVx5P1vHRIBb6vQGHGAHrmXhxojlU0YgjS+WHVYGDg==</DigestValue>
     </Reference>
     <Reference URI="bin%2FTizenNUIApp.dll">
       <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512" />
-      <DigestValue>shGlzP/sC9/Ynx9hjfizEwnzZ8Pzlhe3y1yIlIe/6XZnWfCYndurnn2HhyVIT2cUimfHObVLZ687mNS4JsA1NA==</DigestValue>
+      <DigestValue>hdhcqERgFRJOAzKiqekdpqQ+yIMmpTibY63MDtxNSz729Hmnw3Y7CMTGZlcOVFuthktbC7skkaLh6cg9u+MnhQ==</DigestValue>
     </Reference>
     <Reference URI="#prop">
       <Transforms>
@@ -151,9 +151,9 @@
     </Reference>
   </SignedInfo>
   <SignatureValue>
-abjjtwrhZsRvsckHgosB+hkT8Kd/mDm3jbRH005IQmnssvMXUdkfR4LE8uE9hUCd2znoeX53+9qm
-WQOP2iggBzooH3oRbPHSMG3GOlg6JIPlzi6sipVIXlF7jwk5g+Fo5HqqDqkUfrOpQthCq4d5meuf
-nreRVEbA3cQBHYUHzHM=
+kauZWn/HVu4bv6qkeroLiAlNolD5+ScuzPmkJp2Caay3Ce2H0cMjq9m1lXrYW63FZb1oACPrIhvs
+n0HRRJoWpBZYykQhzeRwex2I1REjjgXhpw+G23DnyHVWCElytold7OJxYxRN1INAdLTtMLJCvHf4
+ypwjK1M6+USgTe6ldW0=
 </SignatureValue>
   <KeyInfo>
     <X509Data>
